@@ -41,13 +41,13 @@ function LoginForm() {
       </div>
 
       <form className="flex flex-col gap-3 w-full" onSubmit={handleSubmit}>
-        <label htmlFor="login" className="font-semibold">
+        <label htmlFor="email" className="font-semibold">
           Login:
         </label>
         <input
-          id="login"
-          name="login"
-          type="text"
+          id="email"
+          name="email"
+          type="email"
           className="rounded-lg border-solid border-1 border-gray-400 p-2"
           required={true}
         />

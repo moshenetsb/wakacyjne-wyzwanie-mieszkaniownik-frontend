@@ -12,11 +12,13 @@ function Navigation() {
     <nav className="align-middle w-full p-3 bg-blue-500 text-white">
       <div className="max-w-350 font-bold flex flex-row gap-2 w-full mx-auto">
         <div className="flex items-center gap-4">
-          <img
-            src={logo}
-            alt="Logo strony Mieszkaniownik"
-            className="w-10 aspect-square"
-          />
+          <Link to="/">
+            <img
+              src={logo}
+              alt="Logo strony Mieszkaniownik"
+              className="w-10 aspect-square mr-3"
+            />
+          </Link>
           <ul className="flex gap-4 text-xl">
             <li>
               <Link to="/">Strona główna</Link>
