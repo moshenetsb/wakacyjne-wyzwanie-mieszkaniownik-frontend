@@ -1,13 +1,25 @@
 import logo from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import useUser from "../context/UserContext/useUser";
+import { useEffect } from "react";
 
 function LoginForm() {
   const navigate = useNavigate();
   const { user } = useUser();
 
-  if (!user) {
-    navigate("/");
+  useEffect(() => {
+    if (user) {
+      navigate("/profile", { replace: true });
+    }
+  }, [user, navigate]);
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    //const formData = new FormData(event.target);
+    //const login = formData.get("login");
+    //const password = formData.get("password");
+
+    navigate("/profile", { replace: true });
   }
 
   return (
@@ -28,21 +40,27 @@ function LoginForm() {
         </p>
       </div>
 
-      <form className="flex flex-col gap-3 w-full">
-        <label htmlFor="login">Login:</label>
+      <form className="flex flex-col gap-3 w-full" onSubmit={handleSubmit}>
+        <label htmlFor="login" className="font-semibold">
+          Login:
+        </label>
         <input
           id="login"
           name="login"
           type="text"
           className="rounded-lg border-solid border-1 border-gray-400 p-2"
+          required={true}
         />
 
-        <label htmlFor="password">Hasło:</label>
+        <label htmlFor="password" className="font-semibold">
+          Hasło:
+        </label>
         <input
           id="password"
           name="password"
           type="password"
           className="rounded-lg border-solid border-1 border-gray-400 p-2"
+          required={true}
         />
         <button
           type="submit"
