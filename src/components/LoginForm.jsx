@@ -1,11 +1,14 @@
 import logo from "../assets/logo.png";
+import Loading from "./Loading";
 import { useNavigate } from "react-router-dom";
 import useUser from "../context/UserContext/useUser";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { API_BASE_URL } from "../api/api";
 
 function LoginForm() {
   const navigate = useNavigate();
-  const { user } = useUser();
+  const [loading, setLoading] = useState(false);
+  const { user, login } = useUser();
 
   useEffect(() => {
     if (user) {
@@ -13,14 +16,41 @@ function LoginForm() {
     }
   }, [user, navigate]);
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
-    //const formData = new FormData(event.target);
-    //const login = formData.get("login");
-    //const password = formData.get("password");
 
-    navigate("/profile", { replace: true });
+    const formData = new FormData(event.target);
+    const email = formData.get("email");
+    const password = formData.get("password");
+
+    setLoading(true);
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+        credentials: "include",
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.message || "Błąd logowania");
+      }
+
+      const userData = await res.json();
+      login(userData);
+      navigate("/profile", { replace: true });
+    } catch (err) {
+      alert("Błąd logowania");
+      console.error(err);
+      navigate("/login", { replace: true });
+    } finally {
+      setLoading(false);
+    }
   }
+
+  if (loading) return <Loading />;
 
   return (
     <div className="flex flex-col items-center gap-4 p-4 max-w-sm mx-auto h-auto">

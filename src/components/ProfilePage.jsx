@@ -2,9 +2,11 @@ import { useNavigate } from "react-router-dom";
 import useUser from "../context/UserContext/useUser";
 import { useEffect, useState } from "react";
 import { API_BASE_URL } from "../api/api";
+import Loading from "./Loading";
 
 function ProfilePage() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const { user, login } = useUser();
 
   useEffect(() => {
@@ -33,6 +35,12 @@ function ProfilePage() {
     if (formData.get("surname") !== user.surname)
       updates.surname = formData.get("surname");
 
+    if (updates.length === 0) {
+      alert("Brak zmian do zapisania.");
+      return;
+    }
+
+    setLoading(true);
     const failedFields = [];
 
     for (const field in updates) {
@@ -54,8 +62,10 @@ function ProfilePage() {
     if (failedFields.length > 0) {
       alert(`Nie udało się zaktualizować pól: ${failedFields.join(", ")}`);
     } else {
-      alert("Dane konta zastały zmienione!");
+      alert("Dane konta zastały zmienione pomyślnie!");
     }
+
+    setLoading(false);
 
     const updatedUser = { ...user };
 
@@ -66,6 +76,8 @@ function ProfilePage() {
     }
     login(updatedUser);
   }
+
+  if (loading) return <Loading />;
 
   return (
     <div className="max-w-sm mx-auto mt-4">
