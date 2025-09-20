@@ -1,7 +1,7 @@
 function Home() {
   return (
     <div className="flex flex-col gap-8 items-center justify-center">
-      <h1 className="text-center text-blue-950 font-bold text-4xl tracking-wider">
+      <h1 className="text-center text-blue-950 font-bold text-3xl tracking-wider">
         Witamy w MIESZKANIOWNIKU!
       </h1>
       <p className="text-center text-blue-950 text-xl">

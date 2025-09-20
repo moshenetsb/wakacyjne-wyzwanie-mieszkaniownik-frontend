@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import useUser from "../context/UserContext/useUser";
 import { useEffect, useState } from "react";
+import { API_BASE_URL } from "../api/api";
 
 function ProfilePage() {
   const navigate = useNavigate();
-  const { user, logout } = useUser();
+  const { user, login } = useUser();
 
   useEffect(() => {
     if (!user) {
@@ -18,22 +19,52 @@ function ProfilePage() {
 
   if (!user) return null;
 
-  function handleSave(e) {
+  async function handleSave(e) {
     e.preventDefault();
     if (!window.confirm("Czy na pewno chcesz zaktualizować dane konta?"))
       return;
 
-    // tutaj API do zapisu zmian
-    alert("Dane zapisane!");
-  }
+    const formData = new FormData(e.target);
 
-  function handleDeactivate() {
-    if (!window.confirm("Czy na pewno chcesz dezaktywować konto?")) return;
+    const updates = {};
+    if (formData.get("email") !== user.email)
+      updates.email = formData.get("email");
+    if (formData.get("name") !== user.name) updates.name = formData.get("name");
+    if (formData.get("surname") !== user.surname)
+      updates.surname = formData.get("surname");
 
-    // dezaktywacja konta przez API
+    const failedFields = [];
 
-    alert("Konto zostało dezaktywowane.");
-    logout();
+    for (const field in updates) {
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/user/update/${field}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ [field]: updates[field] }),
+          credentials: "include",
+        });
+
+        if (!res.ok) throw new Error(`${field} update failed`);
+      } catch (err) {
+        console.error(err);
+        failedFields.push(field);
+      }
+    }
+
+    if (failedFields.length > 0) {
+      alert(`Nie udało się zaktualizować pól: ${failedFields.join(", ")}`);
+    } else {
+      alert("Dane konta zastały zmienione!");
+    }
+
+    const updatedUser = { ...user };
+
+    for (const field in updates) {
+      if (!failedFields.includes(field)) {
+        updatedUser[field] = updates[field];
+      }
+    }
+    login(updatedUser);
   }
 
   return (
@@ -85,13 +116,6 @@ function ProfilePage() {
             className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
           >
             Zapisz zmiany
-          </button>
-          <button
-            type="button"
-            onClick={handleDeactivate}
-            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-          >
-            Dezaktywuj konto
           </button>
         </div>
       </form>
