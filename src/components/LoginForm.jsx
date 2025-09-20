@@ -1,8 +1,17 @@
 import logo from "../assets/logo.png";
+import { useNavigate } from "react-router-dom";
+import useUser from "../context/UserContext/useUser";
 
 function LoginForm() {
+  const navigate = useNavigate();
+  const { user } = useUser();
+
+  if (!user) {
+    navigate("/");
+  }
+
   return (
-    <div className="flex flex-col items-center gap-4 p-4 max-w-sm mx-auto h-screen">
+    <div className="flex flex-col items-center gap-4 p-4 max-w-sm mx-auto h-auto">
       <div className="flex flex-col items-center gap-1 p-4 w-full">
         <img
           src={logo}
