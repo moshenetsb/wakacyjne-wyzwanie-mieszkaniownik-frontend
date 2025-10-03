@@ -4,7 +4,7 @@ function ErrorFallback({ error }) {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col items-center justify-center gap-5">
+    <div className="flex flex-col items-center justify-center gap-5 min-h-screen">
       <h1 className="text-center text-blue-950 font-bold text-4xl tracking-wider">
         Coś poszło nie tak
       </h1>
