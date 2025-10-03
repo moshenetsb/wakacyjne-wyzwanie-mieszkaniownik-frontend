@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { API_BASE_URL } from "../api/api";
 import { ArrowUpIcon, Eye, EyeClosed } from "lucide-react";
 
-function LoginForm() {
+function RegisterForm() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { user, login } = useUser();
@@ -20,32 +20,30 @@ function LoginForm() {
   async function handleSubmit(event) {
     event.preventDefault();
 
-    const formData = new FormData(event.target);
-    const email = formData.get("email");
-    const password = formData.get("password");
+    // const formData = new FormData(event.target);
+    // const email = formData.get("email");
+    // const password = formData.get("password");
 
     setLoading(true);
 
     try {
-      const res = await fetch(`${API_BASE_URL}/api/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-        credentials: "include",
-      });
-
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.message || "Błąd logowania");
-      }
-
-      const userData = await res.json();
-      login(userData);
-      navigate("/profile", { replace: true });
+      //   const res = await fetch(`${API_BASE_URL}/api/login`, {
+      //     method: "POST",
+      //     headers: { "Content-Type": "application/json" },
+      //     body: JSON.stringify({ email, password }),
+      //     credentials: "include",
+      //   });
+      //   if (!res.ok) {
+      //     const data = await res.json();
+      //     throw new Error(data.message || "Błąd logowania");
+      //   }
+      //   const userData = await res.json();
+      //   login(userData);
+      //   navigate("/profile", { replace: true });
     } catch (err) {
-      alert("Błąd logowania");
-      console.error(err);
-      navigate("/login", { replace: true });
+      //   alert("Błąd logowania");
+      //   console.error(err);
+      //   navigate("/login", { replace: true });
     } finally {
       setLoading(false);
     }
@@ -84,8 +82,12 @@ function LoginForm() {
           onSubmit={handleSubmit}
         >
           <div className="gap-1 flex flex-col">
-            <h1 className="font-semibold text-xl text-blue-950 ">Logowanie</h1>
-            <p className="text-gray-500 text-sm">Podaj swój email oraz hasło</p>
+            <h1 className="font-semibold text-xl text-blue-950 ">
+              Rejestracja
+            </h1>
+            <p className="text-gray-500 text-sm">
+              Wypełnij formularz, aby utworzyć konto
+            </p>
           </div>
 
           <div className="flex flex-col gap-1">
@@ -103,6 +105,34 @@ function LoginForm() {
           </div>
 
           <div className="flex flex-col gap-1">
+            <label htmlFor="name" className="font-medium text-blue-950">
+              Imię:
+            </label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              className="w-full rounded-lg border-solid border-1 border-gray-300 p-2"
+              required={true}
+              placeholder="Jan"
+            />
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label htmlFor="surname" className="font-medium text-blue-950">
+              Nazwisko:
+            </label>
+            <input
+              id="surname"
+              name="surname"
+              type="text"
+              className="w-full rounded-lg border-solid border-1 border-gray-300 p-2"
+              required={true}
+              placeholder="Nowak"
+            />
+          </div>
+
+          <div className="flex flex-col gap-1">
             <label htmlFor="password" className="font-medium text-blue-950">
               Hasło:
             </label>
@@ -112,7 +142,7 @@ function LoginForm() {
                 id="password"
                 name="password"
                 className="w-full rounded-lg border-solid border-1 border-gray-300 p-2"
-                placeholder="Twoje hasło"
+                placeholder="Podaj hasło"
                 required={true}
               />
               <button
@@ -131,16 +161,16 @@ function LoginForm() {
               className="rounded-lg border-solid border-1  p-2 text-white bg-blue-500 hover:bg-blue-600 transition-colors duration-300"
               disabled={loading}
             >
-              Zaloguj się
+              Zarejestruj się
             </button>
 
             <p className="text-gray-500 text-sm text-right w-full">
-              Nie masz konta?{" "}
+              Już masz konto?{" "}
               <Link
-                to="/register"
+                to="/login"
                 className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
               >
-                Zarejestruj się
+                Zaloguj się
               </Link>
             </p>
           </div>
@@ -150,4 +180,4 @@ function LoginForm() {
   );
 }
 
-export default LoginForm;
+export default RegisterForm;
