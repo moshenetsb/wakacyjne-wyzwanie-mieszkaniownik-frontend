@@ -1,28 +1,41 @@
-import logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
 import useUser from "../context/UserContext/useUser";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Menu } from "lucide-react";
+import MobileMenu from "./MobileMenu";
+import Logo from "./Logo";
 
 function Navigation() {
   const { user, logout } = useUser();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
-    <nav className="flex flex-row align-middle w-full max-w-350 px-6 py-3">
-      <div className="flex items-center mr-auto">
-        <Link to="/" className="flex flex-row items-center gap-2">
-          <img
-            src={logo}
-            alt="Logo strony Mieszkaniownik"
-            className="w-12 aspect-square"
-          />
-          <span className="text-2xl font-bold">Mieszkaniownik</span>
-        </Link>
-      </div>
+    <nav className="flex flex-row align-middle items-center w-full max-w-350 px-6 py-3">
+      <Menu
+        className="md:hidden w-8 h-8 mr-4"
+        onClick={() => setMenuOpen(true)}
+      />
+
+      {menuOpen && <MobileMenu setMenuOpen={setMenuOpen} />}
+
+      <Logo />
 
       <div className="flex text-lg flex-row gap-4 items-center font-semibold">
-        <ul className="flex">
+        <ul className="hidden md:flex flex-row">
           <li className="p-2 transition-colors rounded-lg hover:bg-blue-600/40 ">
             <Link to="/">Strona główna</Link>
           </li>
