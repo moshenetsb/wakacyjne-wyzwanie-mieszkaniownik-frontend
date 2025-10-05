@@ -1,7 +1,13 @@
 import { Link } from "react-router-dom";
 import useUser from "../context/UserContext/useUser";
 import { useState, useEffect } from "react";
-import { Menu } from "lucide-react";
+import {
+  Menu,
+  ChevronsUpDown,
+  LogOut,
+  CircleUserRound,
+  UserRoundPen,
+} from "lucide-react";
 import MobileMenu from "./MobileMenu";
 import Logo from "./Logo";
 
@@ -26,7 +32,7 @@ function Navigation() {
   return (
     <nav className="flex flex-row align-middle items-center w-full max-w-350 px-6 py-3">
       <Menu
-        className="md:hidden w-8 h-8 mr-4"
+        className="md:hidden w-8 h-8 mr-auto sm:mr-4 cursor-pointer "
         onClick={() => setMenuOpen(true)}
       />
 
@@ -47,25 +53,23 @@ function Navigation() {
               <div className="relative">
                 <button
                   onClick={toggleDropdown}
-                  className="gap-2 flex items-center"
+                  className="flex items-center gap-2 p-2 hover:bg-blue-600/40 rounded-lg transition-colors"
                 >
-                  Witaj, {`${user.name} ${user.surname}`}
-                  <span
-                    className={`inline-block transition-transform duration-600 ${
-                      dropdownOpen ? "rotate-180" : "rotate-0"
-                    }`}
-                  >
-                    ▼
-                  </span>
+                  <CircleUserRound className="w-8 h-8" />
+                  <div className="flex items-center flex-row gap-1">
+                    {`${user.name} ${user.surname}`}
+                    <ChevronsUpDown className="w-5 h-5" />
+                  </div>
                 </button>
 
                 {dropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-40 bg-white text-blue-500 rounded-lg shadow-lg flex flex-col">
+                  <div className="absolute overflow-hidden right-0 mt-2 w-40 bg-white text-blue-950 rounded-lg shadow-lg flex flex-col">
                     <Link
                       to="/profile"
-                      className="px-4 py-2 hover:bg-blue-100"
+                      className="hover:bg-blue-100 py-2 px-4 w-full"
                       onClick={() => setDropdownOpen(false)}
                     >
+                      <UserRoundPen className="inline-block w-4 h-4 mr-2" />
                       Profil
                     </Link>
                     <button
@@ -73,9 +77,10 @@ function Navigation() {
                         logout();
                         setDropdownOpen(false);
                       }}
-                      className="px-4 py-2 text-left hover:bg-blue-100"
+                      className="text-left hover:bg-blue-100 py-2 px-4 w-full"
                     >
-                      Wyloguj się
+                      <LogOut className="inline-block w-4 h-4 mr-2" />
+                      Wyloguj
                     </button>
                   </div>
                 )}

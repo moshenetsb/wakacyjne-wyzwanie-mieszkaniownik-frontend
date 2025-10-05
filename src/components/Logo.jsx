@@ -3,7 +3,11 @@ import { Link } from "react-router-dom";
 
 function Logo({ onClick = () => {}, isMobile = false }) {
   return (
-    <div className="flex items-center mr-auto">
+    <div
+      className={`flex items-center mr-auto ${
+        isMobile ? "block" : "hidden sm:block"
+      }`}
+    >
       <Link
         to="/"
         onClick={onClick}
@@ -14,13 +18,7 @@ function Logo({ onClick = () => {}, isMobile = false }) {
           alt="Logo strony Mieszkaniownik"
           className="w-12 aspect-square"
         />
-        <span
-          className={
-            "text-2xl font-bold " + (isMobile ? "block" : "hidden sm:block")
-          }
-        >
-          Mieszkaniownik
-        </span>
+        <span className="text-2xl font-bold">Mieszkaniownik</span>
       </Link>
     </div>
   );

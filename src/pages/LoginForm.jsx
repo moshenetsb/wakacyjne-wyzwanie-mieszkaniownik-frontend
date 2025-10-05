@@ -49,6 +49,8 @@ function LoginForm() {
     } finally {
       setLoading(false);
     }
+
+    login({ email: "email@example.com", name: "Imię", surname: "Nazwisko" });
   }
 
   return (

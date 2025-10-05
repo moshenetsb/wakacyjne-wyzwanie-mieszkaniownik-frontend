@@ -10,8 +10,8 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
   return (
-    <UserProvider>
-      <Router>
+    <Router>
+      <UserProvider>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -21,8 +21,8 @@ function App() {
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </ErrorBoundary>
-      </Router>
-    </UserProvider>
+      </UserProvider>
+    </Router>
   );
 }
 
