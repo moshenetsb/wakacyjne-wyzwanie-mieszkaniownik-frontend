@@ -9,22 +9,24 @@ function Navigation() {
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
   return (
-    <nav className="align-middle w-full p-3 bg-blue-500 text-white">
-      <div className="max-w-350 font-bold flex flex-row gap-2 w-full mx-auto">
-        <div className="flex items-center gap-4">
-          <Link to="/">
-            <img
-              src={logo}
-              alt="Logo strony Mieszkaniownik"
-              className="w-10 aspect-square mr-3"
-            />
-          </Link>
-          <ul className="flex gap-4 text-xl">
-            <li>
-              <Link to="/">Strona główna</Link>
-            </li>
-          </ul>
-        </div>
+    <nav className="flex flex-row align-middle w-full max-w-350 px-6 py-3">
+      <div className="flex items-center mr-auto">
+        <Link to="/" className="flex flex-row items-center gap-2">
+          <img
+            src={logo}
+            alt="Logo strony Mieszkaniownik"
+            className="w-12 aspect-square"
+          />
+          <span className="text-2xl font-bold">Mieszkaniownik</span>
+        </Link>
+      </div>
+
+      <div className="flex text-lg flex-row gap-4 items-center font-semibold">
+        <ul className="flex">
+          <li className="p-2 transition-colors rounded-lg hover:bg-blue-600/40 ">
+            <Link to="/">Strona główna</Link>
+          </li>
+        </ul>
 
         <div className="flex flex-row items-center gap-2 ml-auto relative">
           {user ? (
@@ -69,7 +71,7 @@ function Navigation() {
           ) : (
             <Link
               to="/login"
-              className="text-base border-solid border p-3 rounded-lg bg-white text-blue-500 font-normal hover:bg-blue-100"
+              className="p-2 transition-colors rounded-lg bg-blue-600 hover:bg-blue-700"
             >
               Zaloguj się
             </Link>

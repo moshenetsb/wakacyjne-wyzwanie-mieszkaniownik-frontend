@@ -128,7 +128,7 @@ function LoginForm() {
           <div className="flex flex-col gap-1">
             <button
               type="submit"
-              className="rounded-lg border-solid border-1  p-2 text-white bg-blue-500 hover:bg-blue-600 transition-colors duration-300"
+              className="cursor-pointer disabled:cursor-default disabled:opacity-50 rounded-lg border-solid border-1  p-2 text-white bg-blue-500 not-disabled:hover:bg-blue-600 transition-colors duration-300"
               disabled={loading}
             >
               Zaloguj się
