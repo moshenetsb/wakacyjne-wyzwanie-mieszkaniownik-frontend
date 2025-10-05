@@ -70,7 +70,7 @@ function Home() {
         </div>
       </section>
 
-      <section className="w-full flex flex-col items-center justify-center py-20 px-4 bg-blue-800 text-white">
+      <section className="w-full flex flex-col items-center justify-center py-20 px-4 bg-blue-900 text-white">
         <h2 className="text-2xl sm:text-4xl font-bold mb-6 text-center">
           Gotowy, aby znaleźć swoje mieszkanie?
         </h2>
