@@ -9,7 +9,7 @@ function UserProvider({ children }) {
 
   function logout() {
     setUser(null);
-    navigate("/login");
+    navigate("/");
   }
 
   return (
