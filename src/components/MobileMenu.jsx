@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import { X } from "lucide-react";
 import Logo from "./Logo";
+import { menuItems } from "../constants/menuItems";
 
-function MobileMenu({ setMenuOpen }) {
+function MobileMenu({ setMenuOpen, user }) {
   const closeMenu = () => {
     setMenuOpen(false);
   };
@@ -14,12 +15,17 @@ function MobileMenu({ setMenuOpen }) {
         <X className="w-10 h-10 " onClick={closeMenu} />
       </div>
       <ul className="flex flex-col align-middle items-center text-center uppercase mt-10 text-2xl font-semibold">
-        <li
-          className="p-4 w-full border-b border-blue-100 last:border-none"
-          onClick={closeMenu}
-        >
-          <Link to="/">Strona główna</Link>
-        </li>
+        {menuItems
+          .filter((item, index) => user || index === 0)
+          .map((item, key) => (
+            <li
+              className="p-6 w-full border-b border-blue-100 last:border-none"
+              onClick={closeMenu}
+              key={key}
+            >
+              <Link to={item.path}>{item.label}</Link>
+            </li>
+          ))}
       </ul>
     </menu>
   );

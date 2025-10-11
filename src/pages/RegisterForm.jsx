@@ -28,7 +28,7 @@ function RegisterForm() {
 
   useEffect(() => {
     if (user) {
-      navigate("/profile", { replace: true });
+      navigate("/dashboard", { replace: true });
     }
   }, [user, navigate]);
 
@@ -176,6 +176,7 @@ function RegisterForm() {
 
                     handleChange(event);
                   }}
+                  minLength={6}
                 />
               </div>
 
@@ -199,6 +200,7 @@ function RegisterForm() {
                   }}
                   value={formData.repeatPassword}
                   error={passwordError}
+                  minLength={6}
                 />
               </div>
 

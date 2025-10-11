@@ -31,7 +31,7 @@ function LoginForm() {
 
     if (userData) {
       login(userData);
-      navigate("/profile", { replace: true });
+      navigate("/dashboard", { replace: true });
     }
 
     setLoading(false);

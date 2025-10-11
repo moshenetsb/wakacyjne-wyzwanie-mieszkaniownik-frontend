@@ -1,96 +1,87 @@
 import { useNavigate } from "react-router-dom";
 import useUser from "../context/UserContext/useUser";
 import { useEffect, useState } from "react";
+import { CircleArrowRight, CircleArrowLeft } from "lucide-react";
+import Button from "./Button";
+import { editUser, getUserData } from "../api/api";
 import Loading from "./Loading";
-import { Eye, EyeClosed } from "lucide-react";
 
 function UserProfile() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [page, setPage] = useState(1);
   const { user, login } = useUser();
+  const [formData, setFormData] = useState({
+    ...user,
+    phone: user?.phone || "",
+  });
 
   useEffect(() => {
-    if (!user) {
+    if (!user && !sessionStorage.getItem("mieszkaniownik:token")) {
       navigate("/", { replace: true });
     }
   }, [user, navigate]);
 
-  const [email, setEmail] = useState(user?.email || "");
-  const [name, setName] = useState(user?.name || "");
-  const [surname, setSurname] = useState(user?.surname || "");
+  useEffect(() => {
+    setFormData({
+      ...user,
+      password: "",
+      repeatPassword: "",
+      phone: user?.phone || "",
+    });
+  }, [user]);
 
-  if (!user) return null;
+  const nextStep = () => setPage(page + 1);
+  const prevStep = () => setPage(page - 1);
 
-  async function handleSave(e) {
-    e.preventDefault();
-    if (!window.confirm("Czy na pewno chcesz zaktualizować dane konta?"))
-      return;
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
-    console.log(name, surname, email);
-
-    const formData = new FormData(e.target);
-
-    const updates = {};
-    if (formData.get("email") !== user.email)
-      updates.email = formData.get("email");
-    if (formData.get("name") !== user.name) updates.name = formData.get("name");
-    if (formData.get("surname") !== user.surname)
-      updates.surname = formData.get("surname");
-
-    /*if (updates.length === 0) {
-      alert("Brak zmian do zapisania.");
-      return;
-    }
+  async function handleSubmit(event) {
+    event.preventDefault();
 
     setLoading(true);
-    const failedFields = [];
 
-    for (const field in updates) {
-      try {
-        const res = await fetch(`${API_BASE_URL}/api/user/update/${field}`, {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ [field]: updates[field] }),
-          credentials: "include",
-        });
+    const resBody = { active: true };
 
-        if (!res.ok) throw new Error(`${field} update failed`);
-      } catch (err) {
-        console.error(err);
-        failedFields.push(field);
+    for (const key in formData) {
+      if (formData[key] && formData[key] !== user[key]) {
+        resBody[key] = formData[key];
       }
     }
 
-    if (failedFields.length > 0) {
-      alert(`Nie udało się zaktualizować pól: ${failedFields.join(", ")}`);
-    } else {
-      alert("Dane konta zastały zmienione pomyślnie!");
+    if (Object.keys(resBody).length === 1) {
+      alert("Brak zmian do zapisania");
+      setLoading(false);
+      return;
+    }
+
+    const saveOk = await editUser(resBody, user.email);
+    if (saveOk) {
+      login(await getUserData());
+      setPage(1);
     }
 
     setLoading(false);
+  }
 
-    const updatedUser = { ...user };
-
-    for (const field in updates) {
-      if (!failedFields.includes(field)) {
-        updatedUser[field] = updates[field];
-      }
-    }
-    login(updatedUser);
-    setEmail(updatedUser.email);
-    setName(updatedUser.name);
-    setSurname(updatedUser.surname);*/
+  if (!user && sessionStorage.getItem("mieszkaniownik:token")) {
+    return (
+      <main className="flex flex-1 justify-center items-center">
+        <Loading />
+      </main>
+    );
   }
 
   return (
-    <main className="w-full mt-18 flex justify-center items-center flex-col p-5">
+    <main className="w-full flex flex-1 justify-center items-center flex-col p-5 mt-12">
       <div className="flex flex-col justify-center items-center max-w-md w-full gap-1 p-4 h-auto">
-        <form
-          className="flex flex-col gap-6 w-full border-gray-200 rounded-xl border p-4 shadow-sm"
-          onSubmit={handleSave}
-        >
+        <div className="flex flex-col gap-4 w-full border-gray-200 rounded-xl border p-4 shadow-sm">
           <div className="gap-1 flex flex-col">
             <h1 className="font-semibold text-xl text-blue-950 ">
               Twoje konto
@@ -100,115 +91,160 @@ function UserProfile() {
             </p>
           </div>
 
-          <div className="flex flex-col gap-1">
-            <label htmlFor="email" className="font-medium text-blue-950">
-              Email:
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              className="w-full rounded-lg border-solid border-1 border-gray-300 p-2"
-              required={true}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="email@example.com"
-            />
+          <div className="relative flex items-center gap-3 my-1">
+            <div className="flex-grow border-t border-gray-300"></div>
+            <span className="text-gray-500 text-sm">{`Strona ${page} z 2`}</span>
+            <div className="flex-grow border-t border-gray-300"></div>
           </div>
 
-          <div className="flex flex-col gap-1">
-            <label htmlFor="name" className="font-medium text-blue-950">
-              Imię:
-            </label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              className="w-full rounded-lg border-solid border-1 border-gray-300 p-2"
-              required={true}
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Jan"
-            />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <label htmlFor="surname" className="font-medium text-blue-950">
-              Nazwisko:
-            </label>
-            <input
-              id="surname"
-              name="surname"
-              type="text"
-              className="w-full rounded-lg border-solid border-1 border-gray-300 p-2"
-              required={true}
-              value={surname}
-              onChange={(e) => setSurname(e.target.value)}
-              placeholder="Nowak"
-            />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <label htmlFor="password" className="font-medium text-blue-950">
-              Hasło:
-            </label>
-            <div className="relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                name="password"
-                className="w-full rounded-lg border-solid border-1 border-gray-300 p-2"
-                placeholder="Podaj hasło"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500"
-              >
-                {showPassword ? <Eye size={20} /> : <EyeClosed size={20} />}
-              </button>
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <label htmlFor="newPassword" className="font-medium text-blue-950">
-              Nowe hasło:
-            </label>
-            <div className="relative">
-              <input
-                type={showNewPassword ? "text" : "password"}
-                id="newPassword"
-                name="newPassword"
-                className="w-full rounded-lg border-solid border-1 border-gray-300 p-2"
-                placeholder="Podaj nowe hasło"
-              />
-              <button
-                type="button"
-                onClick={() => setShowNewPassword(!showNewPassword)}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500"
-              >
-                {showNewPassword ? <Eye size={20} /> : <EyeClosed size={20} />}
-              </button>
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <button
-              type="submit"
-              className="cursor-pointer disabled:cursor-default disabled:opacity-50 rounded-lg border-solid border-1  p-2 text-white bg-blue-500 not-disabled:hover:bg-blue-600 transition-colors duration-300"
-              disabled={loading}
+          {page === 1 && (
+            <form
+              id="step1-form"
+              className="flex flex-col gap-4"
+              onSubmit={nextStep}
             >
-              Zapisz zmiany
-            </button>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="email" className="font-medium text-blue-950">
+                  Email:
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full rounded-lg border-solid border-1 border-gray-300 p-2"
+                  required={true}
+                  placeholder="email@example.com"
+                />
+              </div>
 
-            <p className="text-gray-500 text-sm text-right w-full">
-              Konto utworzone:{" "}
-              <time dateTime={user.created_at}>
-                {new Date(user.created_at).toLocaleDateString()}
-              </time>
-            </p>
-          </div>
-        </form>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="username" className="font-medium text-blue-950">
+                  Nazwa użytkownika:
+                </label>
+                <input
+                  id="username"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  type="text"
+                  className="w-full rounded-lg border-solid border-1 border-gray-300 p-2"
+                  required={true}
+                  placeholder="Podaj nazwę użytkownika"
+                />
+              </div>
+
+              <Button
+                className="w-full cursor-pointer items-centers"
+                type="submit"
+              >
+                <span>Dalej</span>
+                <CircleArrowRight />
+              </Button>
+            </form>
+          )}
+
+          {page === 2 && (
+            <form
+              id="step2-form"
+              className="flex flex-col gap-4"
+              onSubmit={handleSubmit}
+            >
+              <div className="flex flex-col gap-1">
+                <label htmlFor="name" className="font-medium text-blue-950">
+                  Imię:
+                </label>
+                <input
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  type="text"
+                  className="w-full rounded-lg border-solid border-1 border-gray-300 p-2"
+                  required={true}
+                  placeholder="Jan"
+                />
+              </div>
+
+              <div className="flex flex-col gap-1">
+                <label htmlFor="surname" className="font-medium text-blue-950">
+                  Nazwisko:
+                </label>
+                <input
+                  id="surname"
+                  name="surname"
+                  value={formData.surname}
+                  onChange={handleChange}
+                  type="text"
+                  className="w-full rounded-lg border-solid border-1 border-gray-300 p-2"
+                  required={true}
+                  placeholder="Nowak"
+                />
+              </div>
+
+              <div className="flex flex-col gap-1">
+                <label htmlFor="phone" className="font-medium text-blue-950">
+                  Numer telefonu:
+                </label>
+                <input
+                  id="phone"
+                  name="phone"
+                  value={formData.phone || ""}
+                  onChange={handleChange}
+                  type="tel"
+                  className="w-full rounded-lg border-solid border-1 border-gray-300 p-2"
+                  placeholder="Podaj numer telefonu"
+                  pattern="[0-9+*#]*"
+                  title="Dozwolone znaki: cyfry, +, * i #"
+                />
+              </div>
+
+              <div className="flex flex-col gap-1">
+                <label htmlFor="city" className="font-medium text-blue-950">
+                  Nazwa miasta:
+                </label>
+                <input
+                  id="city"
+                  name="city"
+                  value={formData.city}
+                  onChange={handleChange}
+                  type="text"
+                  className="w-full rounded-lg border-solid border-1 border-gray-300 p-2"
+                  required={true}
+                  placeholder="Podaj miasto"
+                />
+              </div>
+
+              <div className="flex flex-row gap-1">
+                <Button
+                  type="button"
+                  className="w-full cursor-pointer items-centers"
+                  onClick={prevStep}
+                  disabled={loading}
+                >
+                  <CircleArrowLeft />
+                  <span>Wróć</span>
+                </Button>
+
+                <Button
+                  type="submit"
+                  loading={loading}
+                  className="w-full cursor-pointer"
+                >
+                  Zapisz zmiany
+                </Button>
+              </div>
+            </form>
+          )}
+
+          <p className="text-gray-500 text-sm text-right w-full">
+            Konto utworzone:{" "}
+            <time dateTime={user.createdAt}>
+              {new Date(user.createdAt).toLocaleDateString("pl-PL")}
+            </time>
+          </p>
+        </div>
       </div>
     </main>
   );

@@ -25,7 +25,7 @@ function UserProvider({ children }) {
   function logout() {
     window.sessionStorage.removeItem("mieszkaniownik:token");
     setUser(null);
-    navigate("/");
+    navigate("/dashboard");
   }
 
   return (

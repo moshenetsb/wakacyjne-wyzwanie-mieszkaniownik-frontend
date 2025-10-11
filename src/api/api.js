@@ -24,7 +24,6 @@ export async function apiRequest(endpoint, options = {}) {
 
   try {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
-
     console.log(response);
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
@@ -129,6 +128,25 @@ export async function getUserData() {
       window.sessionStorage.removeItem("mieszkaniownik:token");
       return;
     }
-    alert("Błąd pobierania danych użytkownika");
+    alert("Nie udało się pobrać danych użytkownika");
+  }
+}
+
+export async function editUser(body, email) {
+  try {
+    await apiPatch(`/users/${email}`, {
+      ...body,
+      updatedAt: new Date().toISOString(),
+    });
+    alert("Dane użytkownika zaktualizowane pomyślnie");
+    return true;
+  } catch (err) {
+    console.error(err);
+    if (err.status === 400) {
+      alert("Złe dane lub walidacja nie powiodła się");
+    } else if (err.status === 403) {
+      alert("Zmiana danych innego użytkownika jest niedozwolona");
+    } else alert("Nie udało się zaktualizować danych użytkownika");
+    return false;
   }
 }
