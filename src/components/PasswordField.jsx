@@ -8,6 +8,7 @@ function PasswordField({
   required = true,
   error = false,
   errorMessage = "Hasła nie są identyczne",
+  ...props
 }) {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -15,6 +16,7 @@ function PasswordField({
     <>
       <div className="relative">
         <input
+          {...props}
           type={showPassword ? "text" : "password"}
           id={id}
           name={name}

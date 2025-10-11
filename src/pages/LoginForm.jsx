@@ -66,7 +66,7 @@ function LoginForm() {
         </div>
 
         <form
-          className="flex flex-col gap-6 w-full border-gray-200 rounded-xl border p-4 shadow-sm"
+          className="flex flex-col gap-4 w-full border-gray-200 rounded-xl border p-4 shadow-sm"
           onSubmit={handleSubmit}
         >
           <div className="gap-1 flex flex-col">
