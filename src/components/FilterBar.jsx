@@ -1,5 +1,5 @@
-import { Filter, X, ArrowUpDown } from 'lucide-react'
-import PropTypes from 'prop-types'
+import { Filter, X, ArrowUpDown } from "lucide-react";
+import PropTypes from "prop-types";
 
 function FilterBar({
   sortOptions = [],
@@ -16,16 +16,16 @@ function FilterBar({
 
   searchValue,
   onSearchChange,
-  searchPlaceholder = 'Szukaj...',
+  searchPlaceholder = "Szukaj...",
   showSearch = false,
 }) {
-  const activeFiltersCount = activeFilters.length
+  const activeFiltersCount = activeFilters.length;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 mb-6">
       {sortOptions.length > 0 && (
         <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div className="flex flex-col items-start md:justify-between gap-4">
             <div className="flex items-center gap-3">
               <ArrowUpDown size={20} className="text-gray-600" />
               <h2 className="font-semibold text-gray-900">Sortuj</h2>
@@ -37,8 +37,8 @@ function FilterBar({
                   onClick={() => onSortChange(option.value)}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
                     sortBy === option.value
-                      ? 'bg-blue-600 text-white shadow-sm'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      ? "bg-blue-600 text-white shadow-sm"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   }`}
                 >
                   {option.label}
@@ -69,8 +69,8 @@ function FilterBar({
                 onClick={onToggleFilters}
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition ${
                   showFilters || activeFiltersCount > 0
-                    ? 'bg-blue-50 border-blue-500 text-blue-700'
-                    : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+                    ? "bg-blue-50 border-blue-500 text-blue-700"
+                    : "bg-white border-gray-300 text-gray-700 hover:bg-gray-50"
                 }`}
               >
                 <Filter size={20} />
@@ -136,7 +136,7 @@ function FilterBar({
         </div>
       )}
     </div>
-  )
+  );
 }
 
 FilterBar.propTypes = {
@@ -180,6 +180,6 @@ FilterBar.propTypes = {
   onSearchChange: PropTypes.func,
   searchPlaceholder: PropTypes.string,
   showSearch: PropTypes.bool,
-}
+};
 
-export default FilterBar
+export default FilterBar;

@@ -65,7 +65,7 @@ function EditPassword() {
   }
 
   return (
-    <main className="w-full flex flex-1 justify-center items-center flex-col p-5 mt-12">
+    <main className="w-full flex flex-1 justify-center items-center flex-col p-5 mt-16">
       <div className="flex flex-col justify-center items-center max-w-md w-full gap-1 p-4 h-auto">
         <div className="flex flex-col gap-4 w-full border-gray-200 rounded-xl border p-4 shadow-sm">
           <div className="gap-1 flex flex-col">

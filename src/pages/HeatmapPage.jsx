@@ -44,7 +44,7 @@ function HeatmapPage() {
   });
 
   useEffect(() => {
-    if (!user) {
+    if (!user && !sessionStorage.getItem("mieszkaniownik:token")) {
       navigate("/login", { replace: true });
       return;
     }

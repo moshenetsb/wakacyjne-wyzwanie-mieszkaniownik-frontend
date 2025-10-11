@@ -7,7 +7,6 @@ import useUser from "../context/UserContext/useUser";
 import useFilters from "../hooks/useFilters";
 import { apiGet, apiPatch, apiDelete } from "../api/api";
 import {
-  Plus,
   Edit,
   Trash2,
   ToggleLeft,
@@ -18,6 +17,7 @@ import {
   Bell,
   TrendingUp,
   Filter,
+  CirclePlus,
 } from "lucide-react";
 import CardSkeleton from "../components/CardSkeleton";
 import StatsSkeleton from "../components/StatsSkeleton";
@@ -84,7 +84,7 @@ function AlertsPage() {
   }, [filters]);
 
   useEffect(() => {
-    if (!user) {
+    if (!user && !sessionStorage.getItem("mieszkaniownik:token")) {
       navigate("/login", { replace: true });
       return;
     }
@@ -171,7 +171,7 @@ function AlertsPage() {
     return (
       <>
         <Header />
-        <main className="w-full flex flex-col items-center flex-grow min-h-[80vh] p-8">
+        <main className="w-full flex flex-col items-center flex-grow min-h-[80vh] p-8 mt-16">
           <div className="max-w-6xl w-full">
             <div className="flex justify-between items-center mb-8">
               <div>
@@ -184,11 +184,7 @@ function AlertsPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-              {[1, 2, 3, 4].map((i) => (
-                <StatsSkeleton key={i} />
-              ))}
-            </div>
+            <StatsSkeleton />
 
             <div className="grid gap-6">
               {[1, 2, 3].map((i) => (
@@ -218,56 +214,58 @@ function AlertsPage() {
               onClick={() => navigate("/alerts/new")}
               className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
             >
-              <Plus size={20} />
+              <CirclePlus size={20} />
               Nowy Alert
             </button>
           </div>
 
           {alerts.length > 0 && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-              <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="p-3 bg-blue-100 rounded-lg">
-                    <Bell className="text-blue-600" size={24} />
-                  </div>
+              <div className="flex items-center gap-3 bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+                <div className="p-3 bg-blue-100 rounded-lg">
+                  <Bell className="text-blue-600" size={24} />
                 </div>
-                <p className="text-gray-600 text-sm mb-1">Wszystkie alerty</p>
-                <p className="text-3xl font-bold text-blue-950">
-                  {stats.total}
-                </p>
-                <p className="text-xs text-gray-500 mt-2">
-                  {stats.active} aktywnych, {stats.paused} wstrzymanych
-                </p>
+                <div>
+                  <p className="text-gray-600 text-sm mb-1">Wszystkie alerty</p>
+                  <p className="text-3xl font-bold text-blue-950">
+                    {stats.total}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-2">
+                    {stats.active} aktywnych, {stats.paused} wstrzymanych
+                  </p>
+                </div>
               </div>
 
-              <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="p-3 bg-purple-100 rounded-lg">
-                    <Heart className="text-purple-600" size={24} />
-                  </div>
+              <div className="flex items-center gap-3 bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+                <div className="p-3 bg-purple-100 rounded-lg">
+                  <Heart className="text-purple-600" size={24} />
                 </div>
-                <p className="text-gray-600 text-sm mb-1">
-                  Wszystkie dopasowania
-                </p>
-                <p className="text-3xl font-bold text-blue-950">
-                  {stats.totalMatches}
-                </p>
-                <p className="text-xs text-gray-500 mt-2">
-                  Suma dopasowań z wszystkich alertów
-                </p>
+                <div>
+                  <p className="text-gray-600 text-sm mb-1">
+                    Wszystkie dopasowania
+                  </p>
+                  <p className="text-3xl font-bold text-blue-950">
+                    {stats.totalMatches}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-2">
+                    Suma dopasowań z wszystkich alertów
+                  </p>
+                </div>
               </div>
 
-              <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="p-3 bg-green-100 rounded-lg">
-                    <TrendingUp className="text-green-600" size={24} />
-                  </div>
+              <div className="flex items-center gap-3 bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+                <div className="p-3 bg-green-100 rounded-lg">
+                  <TrendingUp className="text-green-600" size={24} />
                 </div>
-                <p className="text-gray-600 text-sm mb-1">Średnia dopasowań</p>
-                <p className="text-3xl font-bold text-blue-950">
-                  {stats.avgMatches}
-                </p>
-                <p className="text-xs text-gray-500 mt-2">Na alert</p>
+                <div>
+                  <p className="text-gray-600 text-sm mb-1">
+                    Średnia dopasowań
+                  </p>
+                  <p className="text-3xl font-bold text-blue-950">
+                    {stats.avgMatches}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-2">Na alert</p>
+                </div>
               </div>
             </div>
           )}

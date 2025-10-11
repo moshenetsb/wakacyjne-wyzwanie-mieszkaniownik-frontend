@@ -72,7 +72,7 @@ function MatchesPage() {
   }, [filters]);
 
   useEffect(() => {
-    if (!user) {
+    if (!user && !sessionStorage.getItem("mieszkaniownik:token")) {
       navigate("/login", { replace: true });
       return;
     }
@@ -143,7 +143,7 @@ function MatchesPage() {
     return (
       <>
         <Header />
-        <main className="w-full flex flex-col items-center flex-grow min-h-[80vh] p-8">
+        <main className="w-full flex flex-col items-center flex-grow min-h-[80vh] p-8 mt-16">
           <div className="max-w-7xl w-full">
             <div className="mb-8">
               <h1 className="text-3xl font-bold text-blue-950 mb-2">
@@ -286,7 +286,7 @@ function MatchesPage() {
               </button>
             </div>
           ) : (
-            <div className="grid gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 justify-items-center">
               {matches.map((match) => {
                 const currentImageIndex = imageIndexes[match.id] || 0;
                 const images = match.offer?.images || [];
@@ -295,7 +295,7 @@ function MatchesPage() {
                 return (
                   <div
                     key={match.id}
-                    className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition"
+                    className="max-w-2xl bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition"
                   >
                     {hasImages ? (
                       <div className="relative bg-gray-900 aspect-video">
@@ -373,7 +373,7 @@ function MatchesPage() {
                         <>
                           <div className="flex justify-between items-start mb-4">
                             <div className="flex-grow">
-                              <h3 className="text-xl font-semibold text-blue-950 mb-2">
+                              <h3 className="text-lg sm:text-xl font-semibold text-blue-950 mb-2">
                                 {match.offer.title}
                               </h3>
                               <div className="flex flex-wrap gap-4 text-gray-600">
