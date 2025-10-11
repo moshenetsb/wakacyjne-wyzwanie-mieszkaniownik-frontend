@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import useUser from "../context/UserContext/useUser";
 import { useState, useEffect } from "react";
+import Skeleton from "../components/Skeleton";
 import {
   Menu,
   ChevronsUpDown,
@@ -35,7 +36,6 @@ function Navigation() {
         className="md:hidden w-8 h-8 mr-auto sm:mr-4 cursor-pointer "
         onClick={() => setMenuOpen(true)}
       />
-
       {menuOpen && <MobileMenu setMenuOpen={setMenuOpen} />}
 
       <Logo />
@@ -85,6 +85,11 @@ function Navigation() {
                   </div>
                 )}
               </div>
+            </>
+          ) : !user && window.sessionStorage.getItem("mieszkaniownik:token") ? (
+            <>
+              <Skeleton className="w-8 h-8" variant="circular" />
+              <Skeleton className="w-30 h-4" />
             </>
           ) : (
             <Link

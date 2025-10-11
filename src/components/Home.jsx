@@ -1,6 +1,6 @@
 import backgroundImage from "../assets/home-background.png";
 import { useNavigate } from "react-router-dom";
-import { HomeIcon, UserIcon, KeyIcon } from "lucide-react";
+import { HomeIcon, UserIcon, BellIcon } from "lucide-react";
 
 function Home() {
   const navigate = useNavigate();
@@ -8,7 +8,7 @@ function Home() {
   return (
     <>
       <section
-        className="w-full relative flex flex-col items-center justify-center min-h-screen p-8 bg-top bg-fixed bg-no-repeat bg-cover"
+        className="w-full h-screen relative flex flex-col items-center justify-center p-8 bg-top bg-fixed bg-no-repeat bg-cover"
         style={{ backgroundImage: `url(${backgroundImage})` }}
       >
         <div className="absolute inset-0 bg-black/40"></div>
@@ -60,11 +60,13 @@ function Home() {
             </p>
           </div>
           <div className="flex flex-col items-center text-center p-6 rounded-xl shadow hover:shadow-lg transition">
-            <KeyIcon size={48} className="mb-4 text-blue-950" />
-            <h3 className="text-xl font-semibold mb-2">Łatwy kontakt</h3>
+            <BellIcon size={48} className="mb-4 text-blue-950" />
+            <h3 className="text-xl font-semibold mb-2">
+              Znajdź mieszkanie pierwszy
+            </h3>
             <p className="text-gray-600">
-              Kontaktuj się bezpośrednio z właścicielami i umów spotkanie
-              online.
+              Bądź pierwszy, który dowie się o nowych ofertach dopasowanych do
+              Twoich preferencji!
             </p>
           </div>
         </div>

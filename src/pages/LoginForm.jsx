@@ -2,14 +2,15 @@ import logo from "../assets/logo.png";
 import { useNavigate, Link } from "react-router-dom";
 import useUser from "../context/UserContext/useUser";
 import { useEffect, useState } from "react";
-import { API_BASE_URL } from "../api/api";
-import { ArrowUpIcon, Eye, EyeClosed } from "lucide-react";
+import { authLogin } from "../api/api";
+import { ArrowUpIcon } from "lucide-react";
+import PasswordField from "../components/PasswordField";
+import Button from "../components/Button";
 
 function LoginForm() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { user, login } = useUser();
-  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -26,31 +27,14 @@ function LoginForm() {
 
     setLoading(true);
 
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-        credentials: "include",
-      });
+    const userData = await authLogin({ email, password });
 
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.message || "Błąd logowania");
-      }
-
-      const userData = await res.json();
+    if (userData) {
       login(userData);
       navigate("/profile", { replace: true });
-    } catch (err) {
-      alert("Błąd logowania");
-      console.error(err);
-      navigate("/login", { replace: true });
-    } finally {
-      setLoading(false);
     }
 
-    login({ email: "email@example.com", name: "Imię", surname: "Nazwisko" });
+    setLoading(false);
   }
 
   return (
@@ -108,33 +92,17 @@ function LoginForm() {
             <label htmlFor="password" className="font-medium text-blue-950">
               Hasło:
             </label>
-            <div className="relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                name="password"
-                className="w-full rounded-lg border-solid border-1 border-gray-300 p-2"
-                placeholder="Twoje hasło"
-                required={true}
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500"
-              >
-                {showPassword ? <Eye size={20} /> : <EyeClosed size={20} />}
-              </button>
-            </div>
+            <PasswordField />
           </div>
 
           <div className="flex flex-col gap-1">
-            <button
+            <Button
               type="submit"
-              className="cursor-pointer disabled:cursor-default disabled:opacity-50 rounded-lg border-solid border-1  p-2 text-white bg-blue-500 not-disabled:hover:bg-blue-600 transition-colors duration-300"
-              disabled={loading}
+              loading={loading}
+              className="w-full cursor-pointer"
             >
               Zaloguj się
-            </button>
+            </Button>
 
             <p className="text-gray-500 text-sm text-right w-full">
               Nie masz konta?{" "}
@@ -142,7 +110,7 @@ function LoginForm() {
                 to="/register"
                 className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
               >
-                Zarejestruj się
+                Zaloguj się
               </Link>
             </p>
           </div>

@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import useUser from "../context/UserContext/useUser";
 import { useEffect, useState } from "react";
-import { API_BASE_URL } from "../api/api";
 import Loading from "./Loading";
 import { Eye, EyeClosed } from "lucide-react";
 
@@ -40,7 +39,7 @@ function UserProfile() {
     if (formData.get("surname") !== user.surname)
       updates.surname = formData.get("surname");
 
-    if (updates.length === 0) {
+    /*if (updates.length === 0) {
       alert("Brak zmian do zapisania.");
       return;
     }
@@ -82,7 +81,7 @@ function UserProfile() {
     login(updatedUser);
     setEmail(updatedUser.email);
     setName(updatedUser.name);
-    setSurname(updatedUser.surname);
+    setSurname(updatedUser.surname);*/
   }
 
   return (

@@ -2,14 +2,16 @@ import logo from "../assets/logo.png";
 import { useNavigate, Link } from "react-router-dom";
 import useUser from "../context/UserContext/useUser";
 import { useEffect, useState } from "react";
-import { API_BASE_URL } from "../api/api";
-import { ArrowUpIcon, Eye, EyeClosed } from "lucide-react";
+import { ArrowUpIcon } from "lucide-react";
+import PasswordField from "../components/PasswordField";
+import Button from "../components/Button";
+import { authRegister } from "../api/api";
 
 function RegisterForm() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { user, login } = useUser();
-  const [showPassword, setShowPassword] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -20,33 +22,35 @@ function RegisterForm() {
   async function handleSubmit(event) {
     event.preventDefault();
 
-    // const formData = new FormData(event.target);
-    // const email = formData.get("email");
-    // const password = formData.get("password");
-
     setLoading(true);
+    const formData = new FormData(event.target);
 
-    try {
-      //   const res = await fetch(`${API_BASE_URL}/api/login`, {
-      //     method: "POST",
-      //     headers: { "Content-Type": "application/json" },
-      //     body: JSON.stringify({ email, password }),
-      //     credentials: "include",
-      //   });
-      //   if (!res.ok) {
-      //     const data = await res.json();
-      //     throw new Error(data.message || "Błąd logowania");
-      //   }
-      //   const userData = await res.json();
-      //   login(userData);
-      //   navigate("/profile", { replace: true });
-    } catch (err) {
-      //   alert("Błąd logowania");
-      //   console.error(err);
-      //   navigate("/login", { replace: true });
-    } finally {
-      setLoading(false);
+    if (formData.get("password") !== formData.get("passwordRepeat")) {
+      setPasswordError(true);
+      return;
+    } else {
+      setPasswordError(false);
     }
+
+    const userData = {
+      email: formData.get("email"),
+      password: formData.get("password"),
+      role: "USER",
+      username: formData.get("username"),
+      name: formData.get("name"),
+      surname: formData.get("surname"),
+      phone: formData.get("phone") || null,
+      city: formData.get("city"),
+      googleId: null,
+    };
+
+    const newUserData = await authRegister(userData);
+    if (newUserData) {
+      login(newUserData);
+      navigate("/profile", { replace: true });
+    }
+
+    setLoading(false);
   }
 
   return (
@@ -105,6 +109,20 @@ function RegisterForm() {
           </div>
 
           <div className="flex flex-col gap-1">
+            <label htmlFor="username" className="font-medium text-blue-950">
+              Nazwa użytkownika:
+            </label>
+            <input
+              id="username"
+              name="username"
+              type="text"
+              className="w-full rounded-lg border-solid border-1 border-gray-300 p-2"
+              required={true}
+              placeholder="Podaj nazwę użytkownika"
+            />
+          </div>
+
+          <div className="flex flex-col gap-1">
             <label htmlFor="name" className="font-medium text-blue-950">
               Imię:
             </label>
@@ -133,36 +151,64 @@ function RegisterForm() {
           </div>
 
           <div className="flex flex-col gap-1">
-            <label htmlFor="password" className="font-medium text-blue-950">
-              Hasło:
+            <label htmlFor="phone" className="font-medium text-blue-950">
+              Numer telefonu:
             </label>
-            <div className="relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                name="password"
-                className="w-full rounded-lg border-solid border-1 border-gray-300 p-2"
-                placeholder="Podaj hasło"
-                required={true}
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500"
-              >
-                {showPassword ? <Eye size={20} /> : <EyeClosed size={20} />}
-              </button>
-            </div>
+            <input
+              id="phone"
+              name="phone"
+              type="tel"
+              className="w-full rounded-lg border-solid border-1 border-gray-300 p-2"
+              placeholder="Podaj numer telefonu"
+              pattern="[0-9+*#]*"
+              title="Dozwolone znaki: cyfry, +, * i #"
+            />
           </div>
 
           <div className="flex flex-col gap-1">
-            <button
+            <label htmlFor="city" className="font-medium text-blue-950">
+              Nazwa miasta:
+            </label>
+            <input
+              id="city"
+              name="city"
+              type="text"
+              className="w-full rounded-lg border-solid border-1 border-gray-300 p-2"
+              required={true}
+              placeholder="Podaj miasto"
+            />
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label htmlFor="password" className="font-medium text-blue-950">
+              Hasło:
+            </label>
+            <PasswordField error={passwordError} />
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label
+              htmlFor="passwordRepeat"
+              className="font-medium text-blue-950"
+            >
+              Powtórz hasło:
+            </label>
+            <PasswordField
+              id="passwordRepeat"
+              name="passwordRepeat"
+              placeholder="Powtórz hasło"
+              error={passwordError}
+            />
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <Button
               type="submit"
-              className="cursor-pointer disabled:cursor-default disabled:opacity-50 rounded-lg border-solid border-1  p-2 text-white bg-blue-500 not-disabled:hover:bg-blue-600 transition-colors duration-300"
-              disabled={loading}
+              loading={loading}
+              className="w-full cursor-pointer"
             >
               Zarejestruj się
-            </button>
+            </Button>
 
             <p className="text-gray-500 text-sm text-right w-full">
               Już masz konto?{" "}
@@ -170,7 +216,7 @@ function RegisterForm() {
                 to="/login"
                 className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
               >
-                Zaloguj się
+                Zarejestruj się
               </Link>
             </p>
           </div>
