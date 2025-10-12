@@ -14,11 +14,13 @@ import AuthCallbackPage from "./pages/AuthCallbackPage";
 import EditPasswordPage from "./pages/EditPasswordPage";
 import { ErrorBoundary } from "react-error-boundary";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
     <Router>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <ScrollToTop />
         <UserProvider>
           <Routes>
             <Route path="/" element={<HomePage />} />
