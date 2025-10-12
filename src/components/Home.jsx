@@ -1,14 +1,21 @@
 import backgroundImage from "../assets/home-background.png";
 import { useNavigate } from "react-router-dom";
 import { HomeIcon, UserIcon, BellIcon } from "lucide-react";
+import useUser from "../context/UserContext/useUser";
 
 function Home() {
   const navigate = useNavigate();
+  const { user } = useUser();
+
+  function handleOnClick() {
+    if (user) navigate("/dashboard");
+    else navigate("/login");
+  }
 
   return (
     <>
       <section
-        className="w-full h-screen relative flex flex-col items-center justify-center p-8 bg-top bg-fixed bg-no-repeat bg-cover"
+        className="w-full h-[90dvh] relative flex flex-col items-center justify-center p-8 bg-top bg-fixed bg-no-repeat bg-cover"
         style={{ backgroundImage: `url(${backgroundImage})` }}
       >
         <div className="absolute inset-0 bg-black/40"></div>
@@ -20,7 +27,7 @@ function Home() {
             Twój klucz do studenckiego mieszkania
           </p>
           <button
-            onClick={() => navigate("/login")}
+            onClick={handleOnClick}
             className="bg-blue-800 text-white px-8 py-3 rounded-md hover:bg-blue-700 transition duration-300"
           >
             Zacznij teraz
@@ -77,7 +84,7 @@ function Home() {
           Gotowy, aby znaleźć swoje mieszkanie?
         </h2>
         <button
-          onClick={() => navigate("/login")}
+          onClick={handleOnClick}
           className="bg-white text-blue-950 px-8 py-3 rounded-md hover:bg-gray-200 transition duration-300"
         >
           Zacznij teraz
