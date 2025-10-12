@@ -329,7 +329,7 @@ function HeatmapPage() {
     return (
       <>
         <Header />
-        <main className="w-full flex justify-center items-center flex-grow min-h-[80vh]">
+        <main className="w-full flex justify-center items-center flex-grow min-h-[80vh] mt-16">
           <Loading />
         </main>
         <Footer />
@@ -341,7 +341,7 @@ function HeatmapPage() {
     return (
       <>
         <Header />
-        <main className="w-full flex justify-center items-center flex-grow min-h-[80vh] p-8">
+        <main className="w-full flex justify-center items-center flex-grow min-h-[80vh] p-8 mt-16">
           <div className="max-w-2xl text-center">
             <div className="bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-lg mb-4">
               <h2 className="text-xl font-bold mb-2">Error Loading Map</h2>
