@@ -123,9 +123,9 @@ export async function getUserData() {
     return userData;
   } catch (err) {
     console.error(err);
-    if (err.status === 401) {
-      alert("Sesja wygasła, zaloguj się ponownie");
+    if (err.status === 401 || err.status === 500) {
       window.sessionStorage.removeItem("mieszkaniownik:token");
+      alert("Sesja wygasła, zaloguj się ponownie");
       return;
     }
     alert("Nie udało się pobrać danych użytkownika");
