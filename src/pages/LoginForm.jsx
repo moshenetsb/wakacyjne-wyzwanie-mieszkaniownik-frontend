@@ -110,7 +110,7 @@ function LoginForm() {
                 to="/register"
                 className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
               >
-                Zaloguj się
+                Zarejestruj się
               </Link>
             </p>
           </div>
