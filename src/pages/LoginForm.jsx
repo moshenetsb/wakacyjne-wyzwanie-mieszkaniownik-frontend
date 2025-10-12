@@ -14,7 +14,7 @@ function LoginForm() {
 
   useEffect(() => {
     if (user) {
-      navigate("/profile", { replace: true });
+      navigate("/dashboard", { replace: true });
     }
   }, [user, navigate]);
 

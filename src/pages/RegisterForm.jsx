@@ -53,7 +53,7 @@ function RegisterForm() {
     const newUserData = await authRegister(formData);
     if (newUserData) {
       login(newUserData);
-      navigate("/profile", { replace: true });
+      navigate("/dashboard", { replace: true });
     }
 
     setLoading(false);
