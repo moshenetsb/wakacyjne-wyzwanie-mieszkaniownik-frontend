@@ -386,7 +386,7 @@ function MatchesPage() {
                                   </span>
                                 </div>
                                 {match.offer.street && (
-                                  <div className="flex items-center gap-1">
+                                  <div className="flex items-center gap-1 text-justify">
                                     <Home size={16} />
                                     <span>
                                       {match.offer.street}{" "}
@@ -397,11 +397,10 @@ function MatchesPage() {
                               </div>
                             </div>
                             <div className="text-right">
-                              <div className="text-2xl font-bold text-blue-950">
-                                {parseFloat(match.offer.price).toLocaleString(
-                                  "pl-PL"
-                                )}{" "}
-                                zł
+                              <div className="text-2xl font-bold text-blue-950 min-w-22">
+                                {`${parseFloat(
+                                  match.offer.price
+                                ).toLocaleString("pl-PL")} zł`}
                               </div>
                               {match.offer.negotiable && (
                                 <span className="text-sm text-green-600">
