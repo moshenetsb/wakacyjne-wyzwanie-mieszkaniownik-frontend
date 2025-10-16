@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import useUser from "../context/UserContext/useUser";
-import { apiGet } from "../api/api";
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
+import useUser from '../context/UserContext/useUser'
+import { apiGet } from '../api/api'
 import {
   Bell,
   Heart,
@@ -12,52 +12,66 @@ import {
   AlertCircle,
   Activity,
   Home,
-  Euro,
   Calendar,
   ArrowRight,
   SquareArrowOutUpRight,
-} from "lucide-react";
-import CardSkeleton from "../components/CardSkeleton";
-import StatsSkeleton from "../components/StatsSkeleton";
+} from 'lucide-react'
+import CardSkeleton from '../components/CardSkeleton'
+import StatsSkeleton from '../components/StatsSkeleton'
 
 function DashboardPage() {
-  const navigate = useNavigate();
-  const { user } = useUser();
+  {
+    /* Hooks */
+  }
+  const navigate = useNavigate()
+  const { user } = useUser()
 
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [stats, setStats] = useState(null);
-  const [recentMatches, setRecentMatches] = useState([]);
-  const [activeAlerts, setActiveAlerts] = useState([]);
+  {
+    /* State */
+  }
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [stats, setStats] = useState(null)
+  const [recentMatches, setRecentMatches] = useState([])
+  const [activeAlerts, setActiveAlerts] = useState([])
 
+  {
+    /* Effects */
+  }
   useEffect(() => {
-    if (!user && !sessionStorage.getItem("mieszkaniownik:token")) {
-      navigate("/login", { replace: true });
-      return;
+    if (!user && !sessionStorage.getItem('mieszkaniownik:token')) {
+      navigate('/login', { replace: true })
+      return
     }
-    fetchDashboardData();
-  }, [user, navigate]);
+    fetchDashboardData()
+  }, [user, navigate])
 
+  {
+    /* API Calls */
+  }
   async function fetchDashboardData() {
-    setLoading(true);
+    setLoading(true)
     try {
       const [statsData, matchesData, alertsData] = await Promise.all([
         apiGet(`/matches/stats`),
         apiGet(`/matches?limit=5`),
         apiGet(`/alerts?status=ACTIVE&limit=3`),
-      ]);
+      ])
 
-      setStats(statsData);
-      setRecentMatches(matchesData);
-      setActiveAlerts(alertsData);
+      setStats(statsData)
+      setRecentMatches(matchesData)
+      setActiveAlerts(alertsData)
     } catch (err) {
-      setError(err.message);
-      console.error("Dashboard fetch error:", err);
+      setError(err.message)
+      console.error('Dashboard fetch error:', err)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
   }
 
+  {
+    /* Render - Loading State */
+  }
   if (loading) {
     return (
       <>
@@ -87,9 +101,12 @@ function DashboardPage() {
         </main>
         <Footer />
       </>
-    );
+    )
   }
 
+  {
+    /* Render - Error State */
+  }
   if (error) {
     return (
       <>
@@ -103,9 +120,12 @@ function DashboardPage() {
         </main>
         <Footer />
       </>
-    );
+    )
   }
 
+  {
+    /* Render - Main */
+  }
   return (
     <>
       <Header />
@@ -137,21 +157,6 @@ function DashboardPage() {
             </div>
 
             <div className="flex items-center gap-3 bg-white rounded-lg shadow-sm p-6 border border-gray-200 hover:shadow-md transition">
-              <div className="p-3 bg-blue-100 rounded-lg">
-                <Bell className="text-blue-600" size={24} />
-              </div>
-              <div>
-                <p className="text-gray-600 text-sm mb-1">Aktywne Alerty</p>
-                <p className="text-3xl font-bold text-blue-950">
-                  {activeAlerts.length}
-                </p>
-                <p className="text-xs text-gray-500 mt-2">
-                  Monitorują nowe oferty
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3 bg-white rounded-lg shadow-sm p-6 border border-gray-200 hover:shadow-md transition">
               <div className="p-3 bg-green-100 rounded-lg">
                 <Activity className="text-green-600" size={24} />
               </div>
@@ -165,6 +170,21 @@ function DashboardPage() {
                 <p className="text-xs text-gray-500 mt-2">Średnia dopasowań</p>
               </div>
             </div>
+
+            <div className="flex items-center gap-3 bg-white rounded-lg shadow-sm p-6 border border-gray-200 hover:shadow-md transition">
+              <div className="p-3 bg-blue-100 rounded-lg">
+                <Bell className="text-blue-600" size={24} />
+              </div>
+              <div>
+                <p className="text-gray-600 text-sm mb-1">Aktywne Alerty</p>
+                <p className="text-3xl font-bold text-blue-950">
+                  {activeAlerts.length}
+                </p>
+                <p className="text-xs text-gray-500 mt-2">
+                  Monitorują nowe oferty
+                </p>
+              </div>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -176,7 +196,7 @@ function DashboardPage() {
                     Ostatnie Dopasowania
                   </h2>
                   <button
-                    onClick={() => navigate("/matches")}
+                    onClick={() => navigate('/matches')}
                     className="text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1"
                   >
                     <span className="hidden md:flex">Zobacz wszystkie</span>
@@ -191,7 +211,7 @@ function DashboardPage() {
                     <AlertCircle className="mx-auto mb-2" size={32} />
                     <p>Brak dopasowań</p>
                     <button
-                      onClick={() => navigate("/alerts/new")}
+                      onClick={() => navigate('/alerts/new')}
                       className="mt-4 text-blue-600 hover:text-blue-700 text-sm"
                     >
                       Utwórz pierwszy alert
@@ -203,7 +223,7 @@ function DashboardPage() {
                       key={match.id}
                       className="p-4 hover:bg-gray-50 cursor-pointer transition"
                       onClick={() =>
-                        window.open(match.offer.link, "_blank", "noopener")
+                        window.open(match.offer.link, '_blank', 'noopener')
                       }
                     >
                       <div className="flex items-start justify-between">
@@ -217,7 +237,6 @@ function DashboardPage() {
                               {match.offer.city}
                             </span>
                             <span className="flex items-center gap-1">
-                              <Euro size={14} />
                               {match.offer.price} zł
                             </span>
                             {match.offer.footage && (
@@ -234,7 +253,7 @@ function DashboardPage() {
                             <span className="text-xs text-gray-500 flex items-center gap-1">
                               <Clock size={12} />
                               {new Date(match.matchedAt).toLocaleDateString(
-                                "pl-PL"
+                                'pl-PL'
                               )}
                             </span>
                           </div>
@@ -254,7 +273,7 @@ function DashboardPage() {
                     Aktywne Alerty
                   </h2>
                   <button
-                    onClick={() => navigate("/alerts")}
+                    onClick={() => navigate('/alerts')}
                     className="text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1"
                   >
                     <span className="hidden md:flex">Zobacz wszystkie</span>
@@ -269,7 +288,7 @@ function DashboardPage() {
                     <Bell className="mx-auto mb-2" size={32} />
                     <p>Brak aktywnych alertów</p>
                     <button
-                      onClick={() => navigate("/alerts/new")}
+                      onClick={() => navigate('/alerts/new')}
                       className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm"
                     >
                       Utwórz pierwszy alert
@@ -294,9 +313,8 @@ function DashboardPage() {
                             </span>
                             {(alert.minPrice || alert.maxPrice) && (
                               <span className="flex items-center gap-1">
-                                <Euro size={14} />
                                 {alert.minPrice && `${alert.minPrice} zł`}
-                                {alert.minPrice && alert.maxPrice && " - "}
+                                {alert.minPrice && alert.maxPrice && ' - '}
                                 {alert.maxPrice && `${alert.maxPrice} zł`}
                               </span>
                             )}
@@ -309,7 +327,7 @@ function DashboardPage() {
                             <span className="text-xs text-gray-500 flex items-center gap-1">
                               <Calendar size={12} />
                               {new Date(alert.createdAt).toLocaleDateString(
-                                "pl-PL"
+                                'pl-PL'
                               )}
                             </span>
                           </div>
@@ -325,7 +343,7 @@ function DashboardPage() {
       </main>
       <Footer />
     </>
-  );
+  )
 }
 
-export default DashboardPage;
+export default DashboardPage

@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
-import useUser from "../context/UserContext/useUser";
-import { useState, useEffect } from "react";
-import Skeleton from "../components/Skeleton";
+import { Link } from 'react-router-dom'
+import useUser from '../context/UserContext/useUser'
+import { useState, useEffect } from 'react'
+import Skeleton from '../components/Skeleton'
 import {
   Menu,
   ChevronsUpDown,
@@ -9,28 +9,28 @@ import {
   CircleUserRound,
   UserRoundPen,
   KeyRound,
-} from "lucide-react";
-import MobileMenu from "./MobileMenu";
-import Logo from "./Logo";
-import { menuItems } from "../constants/menuItems";
+} from 'lucide-react'
+import MobileMenu from './MobileMenu'
+import Logo from './Logo'
+import { menuItems } from '../constants/menuItems'
 
 function Navigation() {
-  const { user, logout } = useUser();
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
+  const { user, logout } = useUser()
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const toggleDropdown = () => setDropdownOpen(!dropdownOpen)
 
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768) {
-        setMenuOpen(false);
+        setMenuOpen(false)
       }
-    };
+    }
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize)
 
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   return (
     <nav className="flex flex-row align-middle items-center w-full max-w-350 px-6 py-3">
@@ -45,7 +45,7 @@ function Navigation() {
       <div className="flex text-lg flex-row gap-4 items-center font-semibold">
         <ul className="hidden xl:flex flex-row gap-2">
           {menuItems
-            .filter((item, index) => user || index === 0)
+            .filter(() => user)
             .map((item, key) => (
               <li
                 className="p-2 transition-colors rounded-lg hover:bg-blue-600/40"
@@ -91,8 +91,8 @@ function Navigation() {
                     </Link>
                     <button
                       onClick={() => {
-                        logout();
-                        setDropdownOpen(false);
+                        logout()
+                        setDropdownOpen(false)
                       }}
                       className="text-left hover:bg-blue-100 py-2 px-4 w-full"
                     >
@@ -103,7 +103,7 @@ function Navigation() {
                 )}
               </div>
             </>
-          ) : !user && window.sessionStorage.getItem("mieszkaniownik:token") ? (
+          ) : !user && window.sessionStorage.getItem('mieszkaniownik:token') ? (
             <>
               <Skeleton className="w-8 h-8" variant="circular" />
               <Skeleton className="w-30 h-4" />
@@ -119,7 +119,7 @@ function Navigation() {
         </div>
       </div>
     </nav>
-  );
+  )
 }
 
-export default Navigation;
+export default Navigation
