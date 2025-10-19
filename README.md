@@ -2,13 +2,31 @@
   <img src="banner.png" alt="Mieszkaniownik Banner" width="100%"/>
 </p>
 
-> **Twój klucz do studenckiego mieszkania**
+<p align="center">
+    <strong>Twój klucz do studenckiego mieszkania</strong>
+</p>
 
-### Frontend: [![React](https://img.shields.io/badge/React-19.1-61DAFB?logo=react)](https://react.dev/) [![Vite](https://img.shields.io/badge/Vite-7.1-646CFF?logo=vite)](https://vite.dev/) [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.1-06B6D4?logo=tailwindcss)](https://tailwindcss.com/) [![React Router](https://img.shields.io/badge/React_Router-7.9-CA4245?logo=reactrouter)](https://reactrouter.com/)
+<p align="center">
+<a href="https://discord.com/oauth2/authorize?client_id=1422117898389819532&scope=bot&permissions=268435456">
+    <img src="https://img.shields.io/badge/Discord-Bot-5865F2?style=for-the-badge&logo=discord" alt="Discord Bot">
+</a>
 
-### DevOps: [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker)](https://www.docker.com/) [![Kubernetes](https://img.shields.io/badge/Kubernetes-Helm-326CE5?logo=kubernetes)](https://kubernetes.io/) [![Nginx](https://img.shields.io/badge/Nginx-Latest-009639?logo=nginx)](https://nginx.org/)
+<a href="https://discord.gg/W2SCjUYXCe">
+    <img src="https://img.shields.io/badge/Discord-Server-7289DA?style=for-the-badge&logo=discord" alt="Discord Server">
+</a>
 
-### Status: [![Status](https://img.shields.io/badge/Status-Beta-orange)]() [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
+<a href="mailto:mieszkaniownik@gmail.com">
+    <img src="https://img.shields.io/badge/Gmail-Contact-EA4335?style=for-the-badge&logo=gmail" alt="Gmail Contact">
+</a>
+</p>
+
+## Tech Stack
+
+[![React](https://img.shields.io/badge/React-19.1-61DAFB?logo=react)](https://react.dev/) [![Vite](https://img.shields.io/badge/Vite-7.1-646CFF?logo=vite)](https://vite.dev/) [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.1-06B6D4?logo=tailwindcss)](https://tailwindcss.com/) [![React Router](https://img.shields.io/badge/React_Router-7.9-CA4245?logo=reactrouter)](https://reactrouter.com/)
+
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker)](https://www.docker.com/) [![Kubernetes](https://img.shields.io/badge/Kubernetes-Helm-326CE5?logo=kubernetes)](https://kubernetes.io/) [![Nginx](https://img.shields.io/badge/Nginx-Latest-009639?logo=nginx)](https://nginx.org/)
+
+[![Status](https://img.shields.io/badge/Status-Beta-orange)]() [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
 ## O Projekcie
 
