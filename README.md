@@ -22,11 +22,13 @@
 
 ## Tech Stack
 
-[![React](https://img.shields.io/badge/React-19.1-61DAFB?logo=react)](https://react.dev/) [![Vite](https://img.shields.io/badge/Vite-7.1-646CFF?logo=vite)](https://vite.dev/) [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.1-06B6D4?logo=tailwindcss)](https://tailwindcss.com/) [![React Router](https://img.shields.io/badge/React_Router-7.9-CA4245?logo=reactrouter)](https://reactrouter.com/)
+<div align="center">
 
-[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker)](https://www.docker.com/) [![Kubernetes](https://img.shields.io/badge/Kubernetes-Helm-326CE5?logo=kubernetes)](https://kubernetes.io/) [![Nginx](https://img.shields.io/badge/Nginx-Latest-009639?logo=nginx)](https://nginx.org/)
-
+[![React](https://img.shields.io/badge/React-19.x-61DAFB?logo=react)](https://react.dev/) [![Vite](https://img.shields.io/badge/Vite-7.x-646CFF?logo=vite)](https://vite.dev/) [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.x-06B6D4?logo=tailwindcss)](https://tailwindcss.com/) [![React Router](https://img.shields.io/badge/React_Router-7.x-CA4245?logo=reactrouter)](https://reactrouter.com/)
+[![Docker](https://img.shields.io/badge/Docker_Compose-2.x-2496ED?logo=docker)](https://www.docker.com/) [![Kubernetes](https://img.shields.io/badge/Kubernetes-1.x-326CE5?logo=kubernetes)](https://kubernetes.io/) [![Helm](https://img.shields.io/badge/Helm-3.x-0F1689?logo=helm)](https://helm.sh/) [![Nginx](https://img.shields.io/badge/Nginx-1.x-009639?logo=nginx)](https://nginx.org/)
 [![Status](https://img.shields.io/badge/Status-Beta-orange)]() [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
+
+</div>
 
 ## About the Project
 
