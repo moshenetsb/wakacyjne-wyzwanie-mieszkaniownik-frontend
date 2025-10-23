@@ -26,7 +26,7 @@ frontend:
   env:
     NODE_ENV: production
     PORT: "80"
-    VITE_API_URL: "http://mieszkaniownik-backend.default.svc.cluster.local:5001"
+    VITE_API_BASE_URL: "http://mieszkaniownik-backend.default.svc.cluster.local:5001"
     VITE_APP_TITLE: "Mieszkaniownik"
 
   backend:
