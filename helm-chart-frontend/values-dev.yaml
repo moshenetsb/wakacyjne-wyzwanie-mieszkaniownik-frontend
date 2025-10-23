@@ -1,5 +1,5 @@
 global:
-  imageRegistry: ""
+  imageRegistry: "eu.gcr.io/"
   imagePullSecrets:
     - name: registry-secret
 
@@ -12,7 +12,8 @@ frontend:
 
   env:
     NODE_ENV: development
-    VITE_API_URL: "https://api-dev.mieszkaniownik.com"
+    VITE_API_URL: "https://api.mieszkaniownik.wsparcie.dev"
+    VITE_GOOGLE_MAPS_API_KEY: "${VITE_GOOGLE_MAPS_API_KEY}"
     VITE_ENABLE_DEBUG: "true"
     VITE_LOG_LEVEL: "debug"
 
@@ -26,7 +27,7 @@ frontend:
 
 config:
   api:
-    baseUrl: "https://api-dev.mieszkaniownik.com"
+    baseUrl: "https://api.mieszkaniownik.wsparcie.dev"
     timeout: 10000
   features:
     enableAnalytics: true
@@ -36,8 +37,11 @@ config:
 
 ingress:
   enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
   hosts:
-    - host: dev.mieszkaniownik.com
+    - host: mieszkaniownik.wsparcie.dev
       paths:
         - path: /
           pathType: Prefix
@@ -45,7 +49,7 @@ ingress:
   tls:
     - secretName: mieszkaniownik-dev-tls
       hosts:
-        - dev.mieszkaniownik.com
+        - mieszkaniownik.wsparcie.dev
 
 autoscaling:
   enabled: true
