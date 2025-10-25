@@ -8,32 +8,22 @@ RUN npm ci
 
 COPY . .
 
+ARG VITE_API_BASE_URL=http://localhost:5001
+ARG VITE_GOOGLE_MAPS_API_KEY=""
+
+ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
+ENV VITE_GOOGLE_MAPS_API_KEY=$VITE_GOOGLE_MAPS_API_KEY
+
 RUN npm run build
 
 FROM nginx:alpine
 
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-RUN echo 'server { \
-    listen 5173; \
-    server_name localhost; \
-    root /usr/share/nginx/html; \
-    index index.html; \
-    location / { \
-    try_files $uri $uri/ /index.html; \
-    } \
-    location /api { \
-    proxy_pass http://backend:5001; \
-    proxy_http_version 1.1; \
-    proxy_set_header Upgrade $http_upgrade; \
-    proxy_set_header Connection "upgrade"; \
-    proxy_set_header Host $host; \
-    proxy_cache_bypass $http_upgrade; \
-    } \
-    }' > /etc/nginx/conf.d/default.conf
-
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-EXPOSE 5173
+RUN sed -i 's/listen 5173/listen 80/g' /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
