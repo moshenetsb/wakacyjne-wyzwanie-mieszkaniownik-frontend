@@ -26,6 +26,7 @@ steps:
       - "build"
       - "--tag=${_ARTIFACT_REGISTRY}/$PROJECT_ID/${_REPOSITORY}/${_IMAGE_NAME}:$SHORT_SHA"
       - "--tag=${_ARTIFACT_REGISTRY}/$PROJECT_ID/${_REPOSITORY}/${_IMAGE_NAME}:latest"
+      - "--tag=${_ARTIFACT_REGISTRY}/$PROJECT_ID/${_REPOSITORY}/${_IMAGE_NAME}:${BRANCH_NAME}-latest"
       - "--build-arg=VITE_API_BASE_URL=$$VITE_API_BASE_URL"
       - "--build-arg=VITE_GOOGLE_MAPS_API_KEY=$$VITE_GOOGLE_MAPS_API_KEY"
       - "--build-arg=NODE_ENV=production"
@@ -43,6 +44,12 @@ steps:
     args:
       - "push"
       - "${_ARTIFACT_REGISTRY}/$PROJECT_ID/${_REPOSITORY}/${_IMAGE_NAME}:latest"
+
+  - name: "gcr.io/cloud-builders/docker"
+    id: "push-branch-latest"
+    args:
+      - "push"
+      - "${_ARTIFACT_REGISTRY}/$PROJECT_ID/${_REPOSITORY}/${_IMAGE_NAME}:${BRANCH_NAME}-latest"
 
   - name: "gcr.io/cloud-builders/gcloud"
     id: "get-credentials"
@@ -83,5 +90,11 @@ steps:
 images:
   - "${_ARTIFACT_REGISTRY}/$PROJECT_ID/${_REPOSITORY}/${_IMAGE_NAME}:$SHORT_SHA"
   - "${_ARTIFACT_REGISTRY}/$PROJECT_ID/${_REPOSITORY}/${_IMAGE_NAME}:latest"
+  - "${_ARTIFACT_REGISTRY}/$PROJECT_ID/${_REPOSITORY}/${_IMAGE_NAME}:${BRANCH_NAME}-latest"
 
 timeout: "1800s"
+
+tags:
+  - "mieszkaniownik-frontend"
+  - "${BRANCH_NAME}"
+  - "$SHORT_SHA"
