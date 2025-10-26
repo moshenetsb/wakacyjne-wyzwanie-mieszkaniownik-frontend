@@ -29,7 +29,7 @@ function Footer() {
                 className="flex items-center gap-2 underline-offset-4 transition-colors hover:text-gray-300 hover:underline"
               >
                 <MessageCircleIcon size={16} />
-                Wspólny serwer Discord
+                Serwer Discord
               </a>
               <a
                 href="mailto:mieszkaniownik@gmail.com"
@@ -45,7 +45,7 @@ function Footer() {
                 className="flex items-center gap-2 underline-offset-4 transition-colors hover:text-gray-300 hover:underline"
               >
                 <BotIcon size={16} />
-                Dedykowany bot Discord
+                Bot Discord
               </a>
             </div>
           </div>
