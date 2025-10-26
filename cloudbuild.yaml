@@ -85,20 +85,27 @@ steps:
 
   - name: "gcr.io/$PROJECT_ID/helm"
     id: "helm-deploy"
+    entrypoint: "bash"
     args:
-      - "upgrade"
-      - "--install"
-      - "${_HELM_RELEASE}"
-      - "./helm-chart-frontend"
-      - "--namespace=${_NAMESPACE}"
-      - "--create-namespace"
-      - "--values=./helm-chart-frontend/values.yaml"
-      - "--values=./helm-chart-frontend/values-prod.yaml"
-      - "--set=frontend.image.repository=${_ARTIFACT_REGISTRY}/$PROJECT_ID/${_REPOSITORY}/${_IMAGE_NAME}"
-      - "--set=frontend.image.tag=$SHORT_SHA"
-      - "--set=global.imageRegistry="
-      - "--wait"
-      - "--timeout=10m"
+      - "-c"
+      - |
+        # Debug: Check workspace contents
+        echo "Current directory: $(pwd)"
+        echo "Workspace contents:"
+        ls -la
+        echo "Looking for helm-chart-frontend:"
+        ls -la helm-chart-frontend/ || echo "helm-chart-frontend not found!"
+        
+        helm upgrade --install ${_HELM_RELEASE} /workspace/helm-chart-frontend \
+          --namespace=${_NAMESPACE} \
+          --create-namespace \
+          --values=/workspace/helm-chart-frontend/values.yaml \
+          --values=/workspace/helm-chart-frontend/values-prod.yaml \
+          --set=frontend.image.repository=${_ARTIFACT_REGISTRY}/$PROJECT_ID/${_REPOSITORY}/${_IMAGE_NAME} \
+          --set=frontend.image.tag=$SHORT_SHA \
+          --set=global.imageRegistry= \
+          --wait \
+          --timeout=10m
     waitFor: ["get-credentials"]
 
   - name: "gcr.io/cloud-builders/kubectl"
