@@ -37,7 +37,7 @@ function Home() {
             href="https://discord.gg/W2SCjUYXCe"
             target="_blank"
             rel="noreferrer"
-            className="rounded-2xl bg-white/20 px-4 py-1.5 text-sm font-medium text-white backdrop-blur-sm transition-all hover:bg-blue-600 hover:text-white"
+            className="rounded-2xl border border-yellow-400/30 bg-gradient-to-r from-yellow-500/20 to-amber-600/20 px-4 py-1.5 text-sm font-medium text-yellow-100 backdrop-blur-sm transition-all hover:border-yellow-400/50 hover:from-yellow-500/30 hover:to-amber-600/30 hover:text-white hover:shadow-lg hover:shadow-yellow-500/20"
           >
             Dołącz do serwera na Discordzie
           </a>

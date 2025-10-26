@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { authRegister } from "../api/api";
 import logo from "../assets/logo.png";
 import Button from "../components/Button";
+import GoogleLoginButton from "../components/GoogleLoginButton";
 import PasswordField from "../components/PasswordField";
 import useUser from "../context/UserContext/useUser";
 
@@ -101,6 +102,20 @@ function RegisterForm() {
               Wypełnij formularz, aby utworzyć konto
             </p>
           </div>
+
+          {/* Google Login Button - Only on Step 1 */}
+          {step === 1 && (
+            <>
+              <GoogleLoginButton text="Zarejestruj się przez Google" />
+              
+              {/* Divider */}
+              <div className="relative flex items-center">
+                <div className="flex-grow border-t border-gray-300"></div>
+                <span className="mx-4 flex-shrink text-sm text-gray-500">lub</span>
+                <div className="flex-grow border-t border-gray-300"></div>
+              </div>
+            </>
+          )}
 
           {/* Progress Indicator */}
           <div className="relative my-1 flex items-center gap-3">
