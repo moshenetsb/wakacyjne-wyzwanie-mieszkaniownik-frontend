@@ -1,14 +1,14 @@
 import {
-  BellIcon,
-  HomeIcon,
-  ZapIcon,
   ArmchairIcon,
+  BellIcon,
   CircleDollarSignIcon,
-  SearchIcon,
   Clock,
-  Zap,
+  HomeIcon,
+  SearchIcon,
+  SmileIcon,
   TrendingUp,
-  SmileIcon
+  Zap,
+  ZapIcon,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -63,7 +63,8 @@ function Home() {
             Jak to działa?
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-gray-700 sm:text-xl">
-            Wystarczy, że podasz nam kilka informacji, a my znajdziemy dla Ciebie
+            Wystarczy, że podasz nam kilka informacji, a my znajdziemy dla
+            Ciebie
             <br />
             <b>najlepsze oferty.</b>
           </p>
@@ -116,9 +117,7 @@ function Home() {
             </div>
             <div className="flex flex-col items-center rounded-xl border border-gray-200 bg-white p-6 text-center shadow-sm transition hover:shadow-lg">
               <CircleDollarSignIcon size={48} className="mb-4 text-blue-600" />
-              <h3 className="mb-2 text-xl font-semibold text-blue-950">
-                Cena
-              </h3>
+              <h3 className="mb-2 text-xl font-semibold text-blue-950">Cena</h3>
               <p className="text-gray-600">
                 Jesteśmy w fazie beta, więc wszystko jest za darmo ;)
               </p>
@@ -129,7 +128,8 @@ function Home() {
                 Nic nie przegapisz
               </h3>
               <p className="text-gray-600">
-                Mamy oferty z najpopularniejszych portali ogłoszeniowych w Polsce.
+                Mamy oferty z najpopularniejszych portali ogłoszeniowych w
+                Polsce.
               </p>
             </div>
           </div>

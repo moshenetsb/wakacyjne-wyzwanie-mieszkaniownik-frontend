@@ -48,7 +48,6 @@ data:
     }
 
 ---
-
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
@@ -61,13 +60,12 @@ spec:
     matchLabels:
       app.kubernetes.io/name: mieszkaniownik-frontend
   endpoints:
-  - port: http
-    path: /metrics
-    interval: 30s
-    scrapeTimeout: 10s
+    - port: http
+      path: /metrics
+      interval: 30s
+      scrapeTimeout: 10s
 
 ---
-
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
@@ -75,66 +73,65 @@ metadata:
   namespace: production
 spec:
   groups:
-  - name: frontend
-    interval: 30s
-    rules:
-    - alert: FrontendHighErrorRate
-      expr: |
-        rate(nginx_http_requests_total{status=~"5.."}[5m]) > 0.05
-      for: 5m
-      labels:
-        severity: critical
-        component: frontend
-      annotations:
-        summary: "High error rate detected in frontend"
-        description: "Frontend error rate is {{ $value | humanizePercentage }} (threshold: 5%)"
-    
-    - alert: FrontendHighResponseTime
-      expr: |
-        histogram_quantile(0.95, rate(nginx_http_request_duration_seconds_bucket[5m])) > 2
-      for: 5m
-      labels:
-        severity: warning
-        component: frontend
-      annotations:
-        summary: "High response time detected in frontend"
-        description: "95th percentile response time is {{ $value }}s (threshold: 2s)"
-    
-    - alert: FrontendPodDown
-      expr: |
-        kube_deployment_status_replicas_available{deployment="mieszkaniownik-frontend"} < 2
-      for: 5m
-      labels:
-        severity: critical
-        component: frontend
-      annotations:
-        summary: "Frontend has insufficient replicas"
-        description: "Only {{ $value }} frontend pods are available (minimum: 2)"
-    
-    - alert: FrontendCPUHigh
-      expr: |
-        rate(container_cpu_usage_seconds_total{pod=~"mieszkaniownik-frontend-.*"}[5m]) > 0.8
-      for: 10m
-      labels:
-        severity: warning
-        component: frontend
-      annotations:
-        summary: "High CPU usage in frontend pod"
-        description: "CPU usage is {{ $value | humanizePercentage }} (threshold: 80%)"
-    
-    - alert: FrontendMemoryHigh
-      expr: |
-        container_memory_usage_bytes{pod=~"mieszkaniownik-frontend-.*"} / container_spec_memory_limit_bytes{pod=~"mieszkaniownik-frontend-.*"} > 0.9
-      for: 10m
-      labels:
-        severity: warning
-        component: frontend
-      annotations:
-        summary: "High memory usage in frontend pod"
-        description: "Memory usage is {{ $value | humanizePercentage }} (threshold: 90%)"
+    - name: frontend
+      interval: 30s
+      rules:
+        - alert: FrontendHighErrorRate
+          expr: |
+            rate(nginx_http_requests_total{status=~"5.."}[5m]) > 0.05
+          for: 5m
+          labels:
+            severity: critical
+            component: frontend
+          annotations:
+            summary: "High error rate detected in frontend"
+            description: "Frontend error rate is {{ $value | humanizePercentage }} (threshold: 5%)"
+
+        - alert: FrontendHighResponseTime
+          expr: |
+            histogram_quantile(0.95, rate(nginx_http_request_duration_seconds_bucket[5m])) > 2
+          for: 5m
+          labels:
+            severity: warning
+            component: frontend
+          annotations:
+            summary: "High response time detected in frontend"
+            description: "95th percentile response time is {{ $value }}s (threshold: 2s)"
+
+        - alert: FrontendPodDown
+          expr: |
+            kube_deployment_status_replicas_available{deployment="mieszkaniownik-frontend"} < 2
+          for: 5m
+          labels:
+            severity: critical
+            component: frontend
+          annotations:
+            summary: "Frontend has insufficient replicas"
+            description: "Only {{ $value }} frontend pods are available (minimum: 2)"
+
+        - alert: FrontendCPUHigh
+          expr: |
+            rate(container_cpu_usage_seconds_total{pod=~"mieszkaniownik-frontend-.*"}[5m]) > 0.8
+          for: 10m
+          labels:
+            severity: warning
+            component: frontend
+          annotations:
+            summary: "High CPU usage in frontend pod"
+            description: "CPU usage is {{ $value | humanizePercentage }} (threshold: 80%)"
+
+        - alert: FrontendMemoryHigh
+          expr: |
+            container_memory_usage_bytes{pod=~"mieszkaniownik-frontend-.*"} / container_spec_memory_limit_bytes{pod=~"mieszkaniownik-frontend-.*"} > 0.9
+          for: 10m
+          labels:
+            severity: warning
+            component: frontend
+          annotations:
+            summary: "High memory usage in frontend pod"
+            description: "Memory usage is {{ $value | humanizePercentage }} (threshold: 90%)"
 
 ---
-
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -169,7 +166,6 @@ data:
         k8s_cluster_location europe-central2-a
 
 ---
-
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -179,7 +175,7 @@ data:
   alertmanager.yml: |
     global:
       resolve_timeout: 5m
-    
+
     route:
       group_by: ['alertname', 'cluster', 'service']
       group_wait: 10s
@@ -193,7 +189,7 @@ data:
       - match:
           severity: warning
         receiver: 'warning'
-    
+
     receivers:
     - name: 'default'
       email_configs:
@@ -204,7 +200,7 @@ data:
         auth_password: '${SMTP_PASSWORD}'
         headers:
           Subject: '[Mieszkaniownik] Alert: {{ .GroupLabels.alertname }}'
-    
+
     - name: 'critical'
       email_configs:
       - to: 'mieszkaniownik@gmail.com'
@@ -218,7 +214,7 @@ data:
       webhook_configs:
       - url: '${DISCORD_WEBHOOK_URL}'
         send_resolved: true
-    
+
     - name: 'warning'
       email_configs:
       - to: 'mieszkaniownik@gmail.com'
