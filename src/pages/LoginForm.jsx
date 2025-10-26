@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { authLogin } from "../api/api";
 import logo from "../assets/logo.png";
 import Button from "../components/Button";
+import DiscordLoginButton from "../components/DiscordLoginButton";
 import GoogleLoginButton from "../components/GoogleLoginButton";
 import PasswordField from "../components/PasswordField";
 import useUser from "../context/UserContext/useUser";
@@ -81,16 +82,6 @@ function LoginForm() {
             <p className="text-sm text-gray-500">Podaj swój email oraz hasło</p>
           </div>
 
-          {/* Google Login Button */}
-          <GoogleLoginButton text="Zaloguj się przez Google" />
-
-          {/* Divider */}
-          <div className="relative flex items-center py-2">
-            <div className="flex-grow border-t border-gray-300"></div>
-            <span className="mx-4 flex-shrink text-sm text-gray-500">lub</span>
-            <div className="flex-grow border-t border-gray-300"></div>
-          </div>
-
           <div className="flex flex-col gap-1">
             <label htmlFor="email" className="font-medium text-blue-950">
               Email:
@@ -131,6 +122,19 @@ function LoginForm() {
               </Link>
             </p>
           </div>
+
+          {/* Divider */}
+          <div className="relative flex items-center py-2">
+            <div className="flex-grow border-t border-gray-300"></div>
+            <span className="mx-4 flex-shrink text-sm text-gray-500">lub</span>
+            <div className="flex-grow border-t border-gray-300"></div>
+          </div>
+
+          {/* Google Login Button */}
+          <GoogleLoginButton text="Zaloguj się przez Google" />
+
+          {/* Discord Login Button */}
+          <DiscordLoginButton text="Zaloguj się przez Discord" />
         </form>
       </div>
     </main>

@@ -53,11 +53,19 @@ scripts/
 docker-compose*.yml
 Dockerfile.dev
 
-*.png
+/banner.png
+/logo.png
+/dashboard1.png
+/heatmap1.png
+/heatmap2.png
+/main1.png
+/matches1.png
+/alerts1.png
+/notifications1.png
+
 *.jpg
 *.jpeg
 *.gif
-*.svg
 *.ico
 *.mp4
 *.webm

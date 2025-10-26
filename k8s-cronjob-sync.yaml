@@ -21,64 +21,63 @@ spec:
           restartPolicy: OnFailure
           serviceAccountName: mieszkaniownik-frontend
           containers:
-          - name: sync
-            image: google/cloud-sdk:alpine
-            env:
-            - name: ENVIRONMENT
-              value: "production"
-            - name: GCP_PROJECT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: gcp-credentials
-                  key: project-id
-            - name: FRONTEND_URL
-              value: "https://mieszkaniownik.wsparcie.dev"
-            command:
-            - /bin/sh
-            - -c
-            - |
-              #!/bin/sh
-              set -e
-              
-              echo "Starting full synchronization at $(date)"
-              
-              # Install required tools
-              apk add --no-cache curl
-              
-              # Run cache sync
-              /scripts/sync-cache.sh
-              
-              # Trigger backend data refresh (if needed)
-              echo "Triggering backend data refresh..."
-              curl -X POST -H "Content-Type: application/json" \
-                -d '{"action":"full-sync"}' \
-                http://mieszkaniownik-backend.production.svc.cluster.local:5001/api/admin/sync \
-                || echo "Backend sync endpoint not available or failed"
-              
-              # Verify frontend health
-              echo "Verifying frontend health..."
-              curl -f ${FRONTEND_URL}/health || echo "Health check failed"
-              
-              echo "Full synchronization completed at $(date)"
-            volumeMounts:
-            - name: scripts
-              mountPath: /scripts
-              readOnly: true
-            resources:
-              requests:
-                cpu: 100m
-                memory: 128Mi
-              limits:
-                cpu: 500m
-                memory: 512Mi
+            - name: sync
+              image: google/cloud-sdk:alpine
+              env:
+                - name: ENVIRONMENT
+                  value: "production"
+                - name: GCP_PROJECT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: gcp-credentials
+                      key: project-id
+                - name: FRONTEND_URL
+                  value: "https://mieszkaniownik.wsparcie.dev"
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  #!/bin/sh
+                  set -e
+
+                  echo "Starting full synchronization at $(date)"
+
+                  # Install required tools
+                  apk add --no-cache curl
+
+                  # Run cache sync
+                  /scripts/sync-cache.sh
+
+                  # Trigger backend data refresh (if needed)
+                  echo "Triggering backend data refresh..."
+                  curl -X POST -H "Content-Type: application/json" \
+                    -d '{"action":"full-sync"}' \
+                    http://mieszkaniownik-backend.production.svc.cluster.local:5001/api/admin/sync \
+                    || echo "Backend sync endpoint not available or failed"
+
+                  # Verify frontend health
+                  echo "Verifying frontend health..."
+                  curl -f ${FRONTEND_URL}/health || echo "Health check failed"
+
+                  echo "Full synchronization completed at $(date)"
+              volumeMounts:
+                - name: scripts
+                  mountPath: /scripts
+                  readOnly: true
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+                limits:
+                  cpu: 500m
+                  memory: 512Mi
           volumes:
-          - name: scripts
-            configMap:
-              name: sync-scripts
-              defaultMode: 0755
+            - name: scripts
+              configMap:
+                name: sync-scripts
+                defaultMode: 0755
 
 ---
-
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -88,25 +87,24 @@ data:
   sync-cache.sh: |
     #!/bin/sh
     set -e
-    
+
     echo "Starting cache synchronization..."
-    
+
     PROJECT_ID=${GCP_PROJECT_ID}
     CDN_BUCKET="${PROJECT_ID}-frontend-assets"
-    
+
     # Invalidate CDN cache
     echo "Invalidating CDN cache..."
     gcloud compute url-maps invalidate-cdn-cache mieszkaniownik-frontend-lb \
       --path "/*" \
       --async 2>/dev/null || echo "CDN invalidation skipped"
-    
+
               # Warm up cache
               echo "Warming up cache..."
               FRONTEND_URL=${FRONTEND_URL:-"https://mieszkaniownik.wsparcie.dev"}
               curl -s -o /dev/null ${FRONTEND_URL}/ || true    echo "Cache synchronization completed!"
 
 ---
-
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -130,36 +128,36 @@ spec:
           restartPolicy: OnFailure
           serviceAccountName: mieszkaniownik-frontend
           containers:
-          - name: sync
-            image: google/cloud-sdk:alpine
-            env:
-            - name: ENVIRONMENT
-              value: "development"
-            - name: GCP_PROJECT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: gcp-credentials
-                  key: project-id
-            - name: FRONTEND_URL
-              value: "https://mieszkaniownik.wsparcie.dev"
-            command:
-            - /bin/sh
-            - -c
-            - |
-              #!/bin/sh
-              set -e
-              
-              echo "Starting development sync at $(date)"
-              
-              # Simplified sync for development
-              echo "Clearing development cache..."
-              curl -f ${FRONTEND_URL}/health || echo "Health check completed"
-              
-              echo "Development sync completed at $(date)"
-            resources:
-              requests:
-                cpu: 50m
-                memory: 64Mi
-              limits:
-                cpu: 200m
-                memory: 256Mi
+            - name: sync
+              image: google/cloud-sdk:alpine
+              env:
+                - name: ENVIRONMENT
+                  value: "development"
+                - name: GCP_PROJECT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: gcp-credentials
+                      key: project-id
+                - name: FRONTEND_URL
+                  value: "https://mieszkaniownik.wsparcie.dev"
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  #!/bin/sh
+                  set -e
+
+                  echo "Starting development sync at $(date)"
+
+                  # Simplified sync for development
+                  echo "Clearing development cache..."
+                  curl -f ${FRONTEND_URL}/health || echo "Health check completed"
+
+                  echo "Development sync completed at $(date)"
+              resources:
+                requests:
+                  cpu: 50m
+                  memory: 64Mi
+                limits:
+                  cpu: 200m
+                  memory: 256Mi

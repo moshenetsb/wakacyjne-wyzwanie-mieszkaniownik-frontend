@@ -85,4 +85,3 @@ Explore apartment density across the city with interactive heatmaps.
 Welcome screen with quick access to all features.
 
 ![Main Page](main1.png)
-# Map fix Sun Oct 26 11:29:21 AM CET 2025
