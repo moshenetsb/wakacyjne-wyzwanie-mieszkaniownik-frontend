@@ -37,16 +37,7 @@ cloudbuild-dev.yaml
 README.md
 *.md
 docs/
-banner.png
-logo.png
-*.png
-dashboard1.png
-heatmap1.png
-heatmap2.png
-main1.png
-matches1.png
-alerts1.png
-notifications1.png
+# Note: Removed PNG exclusions to ensure src/assets/logo.png is copied
 
 # Docker
 Dockerfile
@@ -85,5 +76,7 @@ temp/
 coverage
 .nyc_output
 
-# Nginx config (except the one needed)
+# Nginx config
 !nginx.conf
+
+

@@ -5,7 +5,7 @@ on:
     branches:
       - main
     tags:
-      - 'v*'
+      - "v*"
   workflow_dispatch:
 
 env:
@@ -74,7 +74,7 @@ jobs:
       - name: Install Helm
         uses: azure/setup-helm@v4
         with:
-          version: '3.13.0'
+          version: "3.13.0"
 
       - name: Deploy to GKE with Helm
         run: |

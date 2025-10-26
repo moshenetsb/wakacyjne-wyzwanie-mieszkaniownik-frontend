@@ -1,4 +1,4 @@
-import { HomeIcon, MailIcon, MessageCircleIcon, BotIcon } from "lucide-react";
+import { BotIcon, HomeIcon, MailIcon, MessageCircleIcon } from "lucide-react";
 
 function Footer() {
   return (
@@ -45,7 +45,7 @@ function Footer() {
                 className="flex items-center gap-2 underline-offset-4 transition-colors hover:text-gray-300 hover:underline"
               >
                 <BotIcon size={16} />
-                Dodaj bota na serwer
+                Dedykowany bot Discord
               </a>
             </div>
           </div>
@@ -94,7 +94,6 @@ function Footer() {
                   @Drake3001
                 </a>
                 ,{" "}
-   
                 <a
                   href="https://github.com/ptakj"
                   target="_blank"
@@ -121,7 +120,10 @@ function Footer() {
 
         {/* Bottom Copyright */}
         <div className="border-t border-gray-700 pt-6 text-center text-sm text-gray-300">
-          <p>&copy; MIESZKANIOWNIK – Zrobione w czasie Wakacyjne Wyzwanie Solvro 2025</p>
+          <p>
+            &copy; MIESZKANIOWNIK – Zrobione w czasie Wakacyjne Wyzwanie Solvro
+            2025
+          </p>
         </div>
       </div>
     </footer>

@@ -103,15 +103,17 @@ function RegisterForm() {
             </p>
           </div>
 
-          {/* Google Login Button - Only on Step 1 */}
+          {/* Google Login Button */}
           {step === 1 && (
             <>
               <GoogleLoginButton text="Zarejestruj się przez Google" />
-              
+
               {/* Divider */}
               <div className="relative flex items-center">
                 <div className="flex-grow border-t border-gray-300"></div>
-                <span className="mx-4 flex-shrink text-sm text-gray-500">lub</span>
+                <span className="mx-4 flex-shrink text-sm text-gray-500">
+                  lub
+                </span>
                 <div className="flex-grow border-t border-gray-300"></div>
               </div>
             </>
