@@ -8,7 +8,7 @@ import {
   Clock,
   Zap,
   TrendingUp,
-  SmileIcon,
+  SmileIcon
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
