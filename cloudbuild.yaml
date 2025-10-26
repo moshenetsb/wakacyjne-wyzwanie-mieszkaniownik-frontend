@@ -27,6 +27,7 @@ steps:
         echo "VITE_GOOGLE_MAPS_API_KEY=$$VITE_GOOGLE_MAPS_API_KEY" >> /workspace/.env.build
         echo "Secrets retrieved successfully"
         echo "API URL: $$VITE_API_BASE_URL"
+        echo "Maps API Key (first 20 chars): $${VITE_GOOGLE_MAPS_API_KEY:0:20}..."
 
   - name: "gcr.io/cloud-builders/docker"
     id: "build-image"
@@ -37,6 +38,7 @@ steps:
         set -e
         source /workspace/.env.build
         echo "Building with VITE_API_BASE_URL=$$VITE_API_BASE_URL"
+        echo "Building with VITE_GOOGLE_MAPS_API_KEY (first 20 chars)=$${VITE_GOOGLE_MAPS_API_KEY:0:20}..."
         docker build \
           --tag=${_ARTIFACT_REGISTRY}/$PROJECT_ID/${_REPOSITORY}/${_IMAGE_NAME}:$SHORT_SHA \
           --tag=${_ARTIFACT_REGISTRY}/$PROJECT_ID/${_REPOSITORY}/${_IMAGE_NAME}:latest \
