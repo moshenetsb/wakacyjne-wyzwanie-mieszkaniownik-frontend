@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { authLogin } from "../api/api";
 import logo from "../assets/logo.png";
 import Button from "../components/Button";
+import GoogleLoginButton from "../components/GoogleLoginButton";
 import PasswordField from "../components/PasswordField";
 import useUser from "../context/UserContext/useUser";
 
@@ -78,6 +79,16 @@ function LoginForm() {
           <div className="flex flex-col gap-1">
             <h1 className="text-xl font-semibold text-blue-950">Logowanie</h1>
             <p className="text-sm text-gray-500">Podaj swój email oraz hasło</p>
+          </div>
+
+          {/* Google Login Button */}
+          <GoogleLoginButton text="Zaloguj się przez Google" />
+
+          {/* Divider */}
+          <div className="relative flex items-center py-2">
+            <div className="flex-grow border-t border-gray-300"></div>
+            <span className="mx-4 flex-shrink text-sm text-gray-500">lub</span>
+            <div className="flex-grow border-t border-gray-300"></div>
           </div>
 
           <div className="flex flex-col gap-1">
