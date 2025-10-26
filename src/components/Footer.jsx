@@ -1,4 +1,4 @@
-import { HomeIcon, MailIcon, MessageCircleIcon } from "lucide-react";
+import { HomeIcon, MailIcon, MessageCircleIcon, BotIcon } from "lucide-react";
 
 function Footer() {
   return (
@@ -29,7 +29,7 @@ function Footer() {
                 className="flex items-center gap-2 underline-offset-4 transition-colors hover:text-gray-300 hover:underline"
               >
                 <MessageCircleIcon size={16} />
-                Serwer Discord
+                Wspólny serwer Discord
               </a>
               <a
                 href="mailto:mieszkaniownik@gmail.com"
@@ -42,9 +42,10 @@ function Footer() {
                 href="https://discord.com/oauth2/authorize?client_id=1422117898389819532&scope=bot&permissions=268435456"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="underline-offset-4 transition-colors hover:text-gray-300 hover:underline"
+                className="flex items-center gap-2 underline-offset-4 transition-colors hover:text-gray-300 hover:underline"
               >
-                Dodaj Discord Bota
+                <BotIcon size={16} />
+                Dodaj bota na serwer
               </a>
             </div>
           </div>
@@ -76,15 +77,6 @@ function Footer() {
               <div>
                 <span className="font-medium">Backend: </span>
                 <a
-                  href="https://github.com/Drake3001"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline-offset-4 transition-colors hover:text-gray-300 hover:underline"
-                >
-                  @Drake3001
-                </a>
-                ,{" "}
-                <a
                   href="https://github.com/wsparcie"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -93,6 +85,16 @@ function Footer() {
                   @wsparcie
                 </a>
                 ,{" "}
+                <a
+                  href="https://github.com/Drake3001"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline-offset-4 transition-colors hover:text-gray-300 hover:underline"
+                >
+                  @Drake3001
+                </a>
+                ,{" "}
+   
                 <a
                   href="https://github.com/ptakj"
                   target="_blank"
@@ -119,7 +121,7 @@ function Footer() {
 
         {/* Bottom Copyright */}
         <div className="border-t border-gray-700 pt-6 text-center text-sm text-gray-300">
-          <p>&copy; 2025 MIESZKANIOWNIK – Zrobione w czasie Solvro Wakacyjne Wyzwanie 2025</p>
+          <p>&copy; MIESZKANIOWNIK – Zrobione w czasie Wakacyjne Wyzwanie Solvro 2025</p>
         </div>
       </div>
     </footer>
