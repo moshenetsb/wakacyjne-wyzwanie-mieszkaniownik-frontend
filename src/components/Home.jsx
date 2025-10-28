@@ -1,6 +1,18 @@
-import backgroundImage from "../assets/home-background.png";
+import {
+  ArmchairIcon,
+  BellIcon,
+  CircleDollarSignIcon,
+  Clock,
+  HomeIcon,
+  SearchIcon,
+  SmileIcon,
+  TrendingUp,
+  Zap,
+  ZapIcon,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { HomeIcon, UserIcon, BellIcon } from "lucide-react";
+
+import backgroundImage from "../assets/home-background.png";
 import useUser from "../context/UserContext/useUser";
 
 function Home() {
@@ -13,84 +25,198 @@ function Home() {
   }
 
   return (
-    <>
+    <main className="w-full">
+      {/* Hero Section */}
       <section
-        className="w-full h-[90dvh] relative flex flex-col items-center justify-center p-8 bg-top bg-fixed bg-no-repeat bg-cover"
+        className="relative mt-16 flex min-h-[85vh] w-full flex-col items-center justify-center bg-cover bg-fixed bg-top bg-no-repeat p-8"
         style={{ backgroundImage: `url(${backgroundImage})` }}
       >
         <div className="absolute inset-0 bg-black/40"></div>
-        <div className="relative z-10 flex flex-col gap-6 items-center text-center">
-          <h1 className="text-2xl sm:text-4xl md:text-6xl font-extrabold text-white tracking-wider">
-            Witamy w MIESZKANIOWNIKU!
+        <div className="relative z-10 flex flex-col items-center gap-6 text-center">
+          <a
+            href="https://discord.gg/W2SCjUYXCe"
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-2xl border border-yellow-400/30 bg-gradient-to-r from-yellow-500/20 to-amber-600/20 px-4 py-1.5 text-sm font-medium text-yellow-100 backdrop-blur-sm transition-all hover:border-yellow-400/50 hover:from-yellow-500/30 hover:to-amber-600/30 hover:text-white hover:shadow-lg hover:shadow-yellow-500/20"
+          >
+            Dołącz do serwera na Discordzie
+          </a>
+          <h1 className="text-3xl font-extrabold tracking-wider text-white sm:text-5xl md:text-6xl lg:text-7xl">
+            MIESZKANIOWNIK
           </h1>
-          <p className="text-lg sm:text-xl md:text-2xl text-white">
-            Twój klucz do studenckiego mieszkania
+          <p className="max-w-2xl text-lg text-white sm:text-xl md:text-2xl">
+            Znajdziemy Ci mieszkaniową perełkę wśród tysięcy ofert
           </p>
           <button
             onClick={handleOnClick}
-            className="bg-blue-800 text-white px-8 py-3 rounded-md hover:bg-blue-700 transition duration-300"
+            className="mt-4 rounded-lg bg-blue-600 px-8 py-3 text-lg font-medium text-white transition hover:bg-blue-700"
+          >
+            Wypróbuj za darmo
+          </button>
+        </div>
+      </section>
+
+      {/* How it works Section */}
+      <section className="flex flex-col items-center bg-gray-50 px-4 py-16 text-center md:py-20">
+        <div className="w-full max-w-7xl">
+          <h2 className="mb-6 text-3xl font-bold text-blue-950 sm:text-4xl md:text-5xl">
+            Jak to działa?
+          </h2>
+          <p className="mx-auto max-w-2xl text-lg text-gray-700 sm:text-xl">
+            Wystarczy, że podasz nam kilka informacji, a my znajdziemy dla
+            Ciebie
+            <br />
+            <b>najlepsze oferty.</b>
+          </p>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="flex w-full flex-col items-center gap-8 bg-white px-4 py-16 md:py-20">
+        <div className="w-full max-w-7xl">
+          <h2 className="mb-12 text-center text-3xl font-bold text-blue-950 sm:text-4xl">
+            Nasze funkcje
+          </h2>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="flex flex-col items-center rounded-xl border border-gray-200 bg-white p-6 text-center shadow-sm transition hover:shadow-lg">
+              <HomeIcon size={48} className="mb-4 text-blue-600" />
+              <h3 className="mb-2 text-xl font-semibold text-blue-950">
+                Pół-darmo
+              </h3>
+              <p className="text-gray-600">
+                Mieszkania nawet o połowę mniej od ceny rynkowej.
+              </p>
+            </div>
+            <div className="flex flex-col items-center rounded-xl border border-gray-200 bg-white p-6 text-center shadow-sm transition hover:shadow-lg">
+              <BellIcon size={48} className="mb-4 text-blue-600" />
+              <h3 className="mb-2 text-xl font-semibold text-blue-950">
+                Discord
+              </h3>
+              <p className="text-gray-600">
+                Wszystko możesz obsłużyć na naszym lub swoim serwerze Discord.
+              </p>
+            </div>
+            <div className="flex flex-col items-center rounded-xl border border-gray-200 bg-white p-6 text-center shadow-sm transition hover:shadow-lg">
+              <ZapIcon size={48} className="mb-4 text-blue-600" />
+              <h3 className="mb-2 text-xl font-semibold text-blue-950">
+                Szybkość
+              </h3>
+              <p className="text-gray-600">
+                Gwarantujemy, że będziesz pierwszą z osób, które zobaczą daną
+                ofertę.
+              </p>
+            </div>
+            <div className="flex flex-col items-center rounded-xl border border-gray-200 bg-white p-6 text-center shadow-sm transition hover:shadow-lg">
+              <ArmchairIcon size={48} className="mb-4 text-blue-600" />
+              <h3 className="mb-2 text-xl font-semibold text-blue-950">
+                Wygoda
+              </h3>
+              <p className="text-gray-600">
+                Siedź wygodnie i czekaj na oferty. My się zajmiemy resztą.
+              </p>
+            </div>
+            <div className="flex flex-col items-center rounded-xl border border-gray-200 bg-white p-6 text-center shadow-sm transition hover:shadow-lg">
+              <CircleDollarSignIcon size={48} className="mb-4 text-blue-600" />
+              <h3 className="mb-2 text-xl font-semibold text-blue-950">Cena</h3>
+              <p className="text-gray-600">
+                Jesteśmy w fazie beta, więc wszystko jest za darmo ;)
+              </p>
+            </div>
+            <div className="flex flex-col items-center rounded-xl border border-gray-200 bg-white p-6 text-center shadow-sm transition hover:shadow-lg">
+              <SearchIcon size={48} className="mb-4 text-blue-600" />
+              <h3 className="mb-2 text-xl font-semibold text-blue-950">
+                Nic nie przegapisz
+              </h3>
+              <p className="text-gray-600">
+                Mamy oferty z najpopularniejszych portali ogłoszeniowych w
+                Polsce.
+              </p>
+            </div>
+          </div>
+
+          {/* CTA in Features Section */}
+          <div className="mx-auto mt-12 max-w-2xl text-center">
+            <p className="mb-4 text-lg text-gray-700 sm:text-xl">
+              Na co czekasz?
+            </p>
+            <button
+              onClick={handleOnClick}
+              className="rounded-lg bg-blue-600 px-8 py-3 text-lg font-medium text-white transition hover:bg-blue-700"
+            >
+              Wypróbuj za darmo
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Value Proposition Section */}
+      <section className="flex flex-col items-center bg-gray-50 px-4 py-16 text-center md:py-20">
+        <div className="w-full max-w-7xl">
+          <h2 className="mb-6 text-3xl font-bold text-blue-950 sm:text-4xl md:text-5xl">
+            Od studentów dla studentów
+          </h2>
+          <p className="mx-auto mb-12 max-w-3xl text-lg text-gray-700 sm:text-xl">
+            Rozumiemy, jak trudne może być znalezienie mieszkania. Dlatego
+            stworzyliśmy MIESZKANIOWNIK - narzędzie, które oszczędzi Twój czas i
+            stres związany z poszukiwaniem mieszkania.
+          </p>
+
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="flex flex-col items-center rounded-lg bg-white p-6 shadow-sm">
+              <Clock size={48} className="mb-4 text-blue-600" />
+              <h3 className="mb-2 text-xl font-semibold text-blue-950">
+                Zaoszczędź czas
+              </h3>
+              <p className="text-gray-700">
+                Automatyczne monitorowanie ofert zamiast ręcznego odświeżania
+              </p>
+            </div>
+            <div className="flex flex-col items-center rounded-lg bg-white p-6 shadow-sm">
+              <Zap size={48} className="mb-4 text-blue-600" />
+              <h3 className="mb-2 text-xl font-semibold text-blue-950">
+                Szybsze znalezienie
+              </h3>
+              <p className="text-gray-700">
+                Natychmiastowe powiadomienia o nowych ofertach
+              </p>
+            </div>
+            <div className="flex flex-col items-center rounded-lg bg-white p-6 shadow-sm">
+              <TrendingUp size={48} className="mb-4 text-blue-600" />
+              <h3 className="mb-2 text-xl font-semibold text-blue-950">
+                Więcej ofert
+              </h3>
+              <p className="text-gray-700">
+                Agregacja z wielu źródeł w jednym miejscu
+              </p>
+            </div>
+            <div className="flex flex-col items-center rounded-lg bg-white p-6 shadow-sm">
+              <SmileIcon size={48} className="mb-4 text-blue-600" />
+              <h3 className="mb-2 text-xl font-semibold text-blue-950">
+                Mniej stresu
+              </h3>
+              <p className="text-gray-700">
+                Żadnego strachu związanego z poszukiwaniem mieszkania
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA Section */}
+      <section className="flex w-full flex-col items-center justify-center bg-blue-900 px-4 py-16 text-white md:py-20">
+        <div className="w-full max-w-7xl text-center">
+          <h2 className="mb-6 text-3xl font-bold sm:text-4xl">
+            Gotowy, aby znaleźć swoje mieszkanie?
+          </h2>
+          <button
+            onClick={handleOnClick}
+            className="rounded-lg bg-white px-8 py-3 font-medium text-blue-950 transition hover:bg-gray-200"
           >
             Zacznij teraz
           </button>
         </div>
       </section>
-
-      <section className="flex flex-col items-center text-center py-20 px-4 bg-gray-50">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-blue-950">
-          Jak działa MIESZKANIOWNIK?
-        </h2>
-        <p className="max-w-2xl text-gray-700 text-lg sm:text-xl">
-          Znajdź idealne mieszkanie studenckie w kilka minut. Przeglądaj oferty,
-          kontaktuj się bezpośrednio z właścicielami i zarządzaj swoimi
-          ogłoszeniami w jednym miejscu.
-        </p>
-      </section>
-
-      <section className="w-full flex flex-col items-center py-20 px-4 bg-white gap-12">
-        <h2 className="text-2xl sm:text-4xl font-bold text-blue-950 mb-12 text-center">
-          Nasze funkcje
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 max-w-5xl w-full">
-          <div className="flex flex-col items-center text-center p-6 rounded-xl shadow hover:shadow-lg transition">
-            <HomeIcon size={48} className="mb-4 text-blue-950" />
-            <h3 className="text-xl font-semibold mb-2">Łatwe wyszukiwanie</h3>
-            <p className="text-gray-600">
-              Przeglądaj mieszkania według lokalizacji, ceny i preferencji.
-            </p>
-          </div>
-          <div className="flex flex-col items-center text-center p-6 rounded-xl shadow hover:shadow-lg transition">
-            <UserIcon size={48} className="mb-4 text-blue-950" />
-            <h3 className="text-xl font-semibold mb-2">Bezpieczne konto</h3>
-            <p className="text-gray-600">
-              Zarejestruj się i zarządzaj swoimi ogłoszeniami w bezpieczny
-              sposób.
-            </p>
-          </div>
-          <div className="flex flex-col items-center text-center p-6 rounded-xl shadow hover:shadow-lg transition">
-            <BellIcon size={48} className="mb-4 text-blue-950" />
-            <h3 className="text-xl font-semibold mb-2">
-              Znajdź mieszkanie pierwszy
-            </h3>
-            <p className="text-gray-600">
-              Bądź pierwszy, który dowie się o nowych ofertach dopasowanych do
-              Twoich preferencji!
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="w-full flex flex-col items-center justify-center py-20 px-4 bg-blue-900 text-white">
-        <h2 className="text-2xl sm:text-4xl font-bold mb-6 text-center">
-          Gotowy, aby znaleźć swoje mieszkanie?
-        </h2>
-        <button
-          onClick={handleOnClick}
-          className="bg-white text-blue-950 px-8 py-3 rounded-md hover:bg-gray-200 transition duration-300"
-        >
-          Zacznij teraz
-        </button>
-      </section>
-    </>
+    </main>
   );
 }
 

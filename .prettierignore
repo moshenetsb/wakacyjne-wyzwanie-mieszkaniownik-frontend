@@ -1,0 +1,8 @@
+helm-chart-frontend/
+
+dist/
+build/
+
+node_modules/
+
+*.log

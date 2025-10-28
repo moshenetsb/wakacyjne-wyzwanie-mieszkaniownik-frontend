@@ -1,0 +1,15 @@
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      - "build"
+      - "--build-arg=VITE_API_BASE_URL=https://api.mieszkaniownik.wsparcie.dev"
+      - "--build-arg=VITE_GOOGLE_MAPS_API_KEY=AIzaSyCZNUevcLWeWrJ5dXe9IIHxWNu4XrWmGFU"
+      - "--tag=europe-west3-docker.pkg.dev/mieszkaniownik/mieszkaniownik-repo/mieszkaniownik-frontend:fixed-api-url"
+      - "--tag=europe-west3-docker.pkg.dev/mieszkaniownik/mieszkaniownik-repo/mieszkaniownik-frontend:latest"
+      - "."
+
+images:
+  - "europe-west3-docker.pkg.dev/mieszkaniownik/mieszkaniownik-repo/mieszkaniownik-frontend:fixed-api-url"
+  - "europe-west3-docker.pkg.dev/mieszkaniownik/mieszkaniownik-repo/mieszkaniownik-frontend:latest"
+
+timeout: "1200s"

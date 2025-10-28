@@ -1,0 +1,80 @@
+global:
+  imageRegistry: "eu.gcr.io/"
+  imagePullSecrets:
+    - name: registry-secret
+
+frontend:
+  replicaCount: 5
+
+  image:
+    tag: "v1.0.0"
+    pullPolicy: IfNotPresent
+
+  service:
+    type: NodePort
+
+  env:
+    NODE_ENV: production
+    VITE_API_URL: "https://api.mieszkaniownik.wsparcie.dev"
+    VITE_GOOGLE_MAPS_API_KEY: "${VITE_GOOGLE_MAPS_API_KEY}"
+    VITE_ENABLE_DEBUG: "false"
+    VITE_LOG_LEVEL: "error"
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+config:
+  api:
+    baseUrl: "https://api.mieszkaniownik.wsparcie.dev"
+    timeout: 30000
+  features:
+    enableAnalytics: true
+    enableNotifications: true
+    enableDarkMode: true
+    enableDebugMode: false
+
+ingress:
+  enabled: false
+  className: "gce"
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+    kubernetes.io/ingress.global-static-ip-name: "mieszkaniownik-ingress-ip"
+    networking.gke.io/managed-certificates: "mieszkaniownik-frontend-cert"
+    kubernetes.io/ingress.allow-http: "true"
+    cloud.google.com/neg: '{"ingress": true}'
+  hosts:
+    - host: mieszkaniownik.wsparcie.dev
+      paths:
+        - path: /
+          pathType: Prefix
+          service: frontend
+  tls: []
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 2
+  targetCPUUtilizationPercentage: 100
+  targetMemoryUtilizationPercentage: 100
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 101
+  fsGroup: 101
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 101
+  capabilities:
+    drop:
+      - ALL
+
+networkPolicy:
+  enabled: true
