@@ -1,20 +1,16 @@
-# Dependencies
 node_modules
 npm-debug.log
 yarn-debug.log
 yarn-error.log
 
-# Build artifacts (dist is built inside Docker)
 dist
 build
 *.tsbuildinfo
 
-# Environment files
 .env
 .env.local
 .env.*.local
 
-# IDE
 .vscode
 .idea
 *.swp
@@ -22,40 +18,32 @@ build
 *~
 .DS_Store
 
-# Git
 .git
 .gitignore
 .gitattributes
 
-# CI/CD
 .github
 .gitlab-ci.yml
 cloudbuild.yaml
 cloudbuild-dev.yaml
 
-# Documentation
 README.md
 *.md
 docs/
-# Note: Removed PNG exclusions to ensure src/assets/logo.png is copied
 
-# Docker
 Dockerfile
 .dockerignore
 docker-compose.yml
 .docker
 
-# Kubernetes & Helm
-helm-chart-frontend/
 k8s-*.yaml
 
-# Terraform
+helm-chart-frontend/
+
 terraform/
 
-# Scripts
 scripts/
 
-# Logs
 logs
 *.log
 npm-debug.log*
@@ -63,20 +51,14 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
-# OS
 .DS_Store
 Thumbs.db
 
-# Temporary files
 tmp/
 temp/
 *.tmp
 
-# Testing
 coverage
 .nyc_output
 
-# Nginx config
 !nginx.conf
-
-

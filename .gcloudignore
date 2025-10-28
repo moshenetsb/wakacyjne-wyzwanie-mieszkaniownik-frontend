@@ -42,11 +42,8 @@ docs/
 .github/
 .gitlab-ci.yml
 
-helm-chart-frontend/
 terraform/
 k8s-*.yaml
-cloudbuild.yaml
-cloudbuild-dev.yaml
 
 scripts/
 

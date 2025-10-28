@@ -1,11 +1,7 @@
-# .gitignore additions for deployment files
-
-# Environment files with secrets (keep templates only)
 .env.local
 .env.*.local
 .env.secret
 
-# Terraform
 terraform/.terraform/
 terraform/.terraform.lock.hcl
 terraform/terraform.tfstate
@@ -17,7 +13,6 @@ terraform/*_override.tf
 terraform/*_override.tf.json
 terraform/.terraform.tfstate.lock.info
 
-# GCP credentials
 *.json
 !package.json
 !package-lock.json
@@ -25,23 +20,17 @@ terraform/.terraform.tfstate.lock.info
 gcp-credentials/
 service-account-key.json
 
-# Kubernetes secrets
 k8s-secrets/
 *.secret.yaml
 
-# Helm
 helm-chart-frontend/charts/
 helm-chart-frontend/*.tgz
 
-# Scripts logs
 scripts/*.log
 
-# Docker
 docker-compose.override.yml
 
-# Cloud Build
 .cloudbuild/
 
-# Monitoring
 grafana-data/
 prometheus-data/

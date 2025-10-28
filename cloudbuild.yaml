@@ -19,17 +19,15 @@ steps:
     args:
       - "-c"
       - |
-        echo "Fetching frontend secrets..."
-        VITE_GOOGLE_MAPS_API_KEY=$$(gcloud secrets versions access latest --secret=google-maps-api-key-prod --project=$PROJECT_ID)
+        set -e
+        echo "Fetching secrets..."
         VITE_API_BASE_URL=$$(gcloud secrets versions access latest --secret=vite-api-url-prod --project=$PROJECT_ID)
-        
-        # Write secrets to environment file
-        cat > /workspace/frontend-secrets.env << EOF
-        VITE_GOOGLE_MAPS_API_KEY=$$VITE_GOOGLE_MAPS_API_KEY
-        VITE_API_BASE_URL=$$VITE_API_BASE_URL
-        EOF
-        
-        echo "Frontend secrets retrieved successfully"
+        VITE_GOOGLE_MAPS_API_KEY=$$(gcloud secrets versions access latest --secret=google-maps-api-key-prod --project=$PROJECT_ID)
+        echo "VITE_API_BASE_URL=$$VITE_API_BASE_URL" > /workspace/.env.build
+        echo "VITE_GOOGLE_MAPS_API_KEY=$$VITE_GOOGLE_MAPS_API_KEY" >> /workspace/.env.build
+        echo "Secrets retrieved successfully"
+        echo "API URL: $$VITE_API_BASE_URL"
+        echo "Maps API Key (first 20 chars): $${VITE_GOOGLE_MAPS_API_KEY:0:20}..."
 
   - name: "gcr.io/cloud-builders/docker"
     id: "build-image"
@@ -37,9 +35,10 @@ steps:
     args:
       - "-c"
       - |
-        # Source the secrets file
-        source /workspace/frontend-secrets.env
-        
+        set -e
+        source /workspace/.env.build
+        echo "Building with VITE_API_BASE_URL=$$VITE_API_BASE_URL"
+        echo "Building with VITE_GOOGLE_MAPS_API_KEY (first 20 chars)=$${VITE_GOOGLE_MAPS_API_KEY:0:20}..."
         docker build \
           --tag=${_ARTIFACT_REGISTRY}/$PROJECT_ID/${_REPOSITORY}/${_IMAGE_NAME}:$SHORT_SHA \
           --tag=${_ARTIFACT_REGISTRY}/$PROJECT_ID/${_REPOSITORY}/${_IMAGE_NAME}:latest \
@@ -110,6 +109,9 @@ steps:
 
   - name: "gcr.io/cloud-builders/kubectl"
     id: "verify-deployment"
+    env:
+      - "CLOUDSDK_COMPUTE_ZONE=${_CLUSTER_ZONE}"
+      - "CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER_NAME}"
     args:
       - "rollout"
       - "status"
